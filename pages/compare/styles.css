@@ -1,0 +1,59 @@
+/**
+ * React Static Boilerplate
+ * https://github.com/koistya/react-static-boilerplate
+ *
+ * Copyright © 2015-2016 Konstantin Tarkus (@koistya)
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+.inventoryContainer:before,
+.inventoryContainer:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.inventoryContainer:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.inventoryContainer {
+    *zoom: 1;
+    margin: 0 auto;
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0 0 20px 0;
+}
+
+.buttonDisabled{
+    opacity: 0.6;
+}
+
+.inventoryNav{
+    text-align: right;
+    margin: 0 0 20px;
+}
+
+.inventoryNav > button{
+    margin: 0 0 0 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .inventoryContainer{
+        flex-direction: column;
+    }
+}
+@media screen and (max-width: 1024px) {
+
+    .inventoryContainer {
+        padding: 0 16px;
+    }
+
+}

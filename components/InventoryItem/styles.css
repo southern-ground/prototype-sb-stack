@@ -1,0 +1,30 @@
+.inventoryItem{
+    width: 200px;
+    height: 200px;
+}
+.inventoryItemDetails{
+    float:none;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-content: space-between;
+}
+.inventoryItemDetails > p{
+    line-height: 1rem;
+    margin: 20px 0;
+}
+.deselected{
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 632px) {
+    .inventoryItem{
+        width: 50%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .inventoryItem{
+        width: 100%;
+    }
+}
