@@ -37,10 +37,12 @@ class ChoosePage extends React.Component {
     }
 
     updateProps() {
+        console.log('updateProps');
         this.setState({
             inventory: store.getState().inventory,
-            selectCount: store.getState().selectCount,
-            enableButton: store.getState().selectCount > 2
+            stack: store.getState().stack,
+            selectCount: store.getState().stack.length,
+            enableButton: store.getState().stack.length > 2
         });
     }
 

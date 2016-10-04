@@ -117,6 +117,7 @@ const initialState = {
             "selected": false
         }
     ],
+    stack:[],
     selectCount: 0
 };
 
@@ -127,19 +128,28 @@ const store = createStore((state = initialState, action) => {
             return {...state, inventory: action.items};
         case TOGGLE_ITEM:
             var selectCount = 0;
-            return {
+            var stack = [];
+            var newState = {
                 ...state, inventory: state.inventory.map(item=> {
                     if (item.sku === action.sku) {
                         item.selected = !item.selected;
                     }
-                    if (item.selected) selectCount++;
+                    if (item.selected){
+                        selectCount++;
+                        stack.push(item);
+                    }
                     return item;
-                }), selectCount: selectCount
+                }), stack: stack
             };
+
+            console.log('eabod?');
+
+            return newState;
+
         case UPDATE_INVENTORY:
             return {
                 ...state,
-                inventory: action.items.map(item=> {
+                stack: action.items.map(item=> {
                     if (!item.selected) {
                         item.stackOrder = -1;
                     }

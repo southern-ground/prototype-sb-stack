@@ -30,14 +30,14 @@ class StackPage extends React.Component {
         document.title = title;
 
         this.state = {
-            inventory: store.getState().inventory,
+            inventory: store.getState().stack,
             enoughSelected: (items=> {
                 var count = 0;
                 items.forEach(item=> {
                     if (item.selected) count++;
                 });
                 return count > 2;
-            })(store.getState().inventory)
+            })(store.getState().stack)
         };
     }
 
