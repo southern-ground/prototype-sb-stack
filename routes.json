@@ -13,8 +13,8 @@
     "chunk": "main"
   },
   {
-    "path": "/compare",
-    "page": "./pages/compare"
+    "path": "/choose",
+    "page": "./pages/choose"
   },
   {
     "path": "/stack",

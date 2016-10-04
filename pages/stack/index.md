@@ -2,6 +2,6 @@
 title: Stack Page
 ---
 
-## Madgekick
+## Experiment
 
-You can use this page to select items to stack.
+On this page you can click and drag the items to re-order their place in the stack.

@@ -1,4 +1,7 @@
 /**
+ * Created by fst on 10/3/16.
+ */
+/**
  * React Static Boilerplate
  * https://github.com/kriasoft/react-static-boilerplate
  *
@@ -16,7 +19,7 @@ import InventoryItem from '../../components/InventoryItem/InventoryItem';
 import store from '../../core/store';
 import history from '../../core/history';
 
-class ComparePage extends React.Component {
+class ChoosePage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -78,4 +81,4 @@ class ComparePage extends React.Component {
 
 }
 
-export default ComparePage;
+export default ChoosePage;

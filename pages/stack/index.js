@@ -65,6 +65,7 @@ class StackPage extends React.Component {
     orderUpdate(e) {
 
         console.log('StackPage::orderUpdate');
+
         for (var i = 0; i < e.from.children.length; i++) {
             var sku = e.from.children[i].getAttribute('data-sku');
             this.state.inventory.map(item=> {
@@ -75,6 +76,7 @@ class StackPage extends React.Component {
         }
 
         // Update the order in the store:
+
         store.dispatch({
             type: UPDATE_INVENTORY,
             items: this.state.inventory
@@ -82,12 +84,15 @@ class StackPage extends React.Component {
     }
 
     backClick() {
-        history.push({pathname: "/compare"});
+        history.push({pathname: "/choose"});
     }
 
     renderStack() {
         return <div className={s.stackContainer}>
             <div dangerouslySetInnerHTML={{__html: html}}/>
+            <div>
+                To start over you can click the "Home" button in the header (or <Link className="mdl-navigation__link" to="/">here</Link>), or the "Back" button below.
+            </div>
             <div className={s.stackWrapper + " sortable"} ref={this.sortableContainersDecorator}>
                 {this.state.inventory.map((item, index)=> {
 

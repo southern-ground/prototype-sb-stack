@@ -12,6 +12,7 @@ import React, { PropTypes } from 'react';
 import Layout from '../../components/Layout';
 import s from './styles.css';
 import { title, html } from './index.md';
+import Link from '../../components/Link';
 import store from '../../core/store';
 
 class HomePage extends React.Component {
@@ -28,12 +29,16 @@ class HomePage extends React.Component {
     return (
       <Layout className={s.content + ", " + s.cf}>
         <div dangerouslySetInnerHTML={{ __html: html }} />
-        <h4>Articles</h4>
+        <div>
+            You can click the "Choose" link in the header (or <Link className="mdl-navigation__link" to="/choose">here</Link>) to select which items you want to compare.
+        </div>
+
+        {/*<h4>Articles</h4>
         <ul>
           {this.props.articles.map((article, i) =>
             <li key={i}><a href={article.url}>{article.title}</a> by {article.author}</li>
           )}
-        </ul>
+        </ul>*/}
         <p>
           <br /><br />
         </p>
