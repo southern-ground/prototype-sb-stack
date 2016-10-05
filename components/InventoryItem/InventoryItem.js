@@ -11,16 +11,11 @@ class InventoryItem extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = this.props.state;
         this.toggleSelected = this.toggleSelected.bind(this);
     }
 
-    rgbToHex(r, g, b) {
-        var componentToHex = function (c) {
-            var hex = c.toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
-        };
-        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    componentWillMount(){
+        this.state = this.props.state;
     }
 
     toggleSelected(e) {
@@ -36,16 +31,13 @@ class InventoryItem extends React.Component {
                 <div className={styles.inventoryItemDetails}>
                     <img className={styles.inventoryImage} src={"img/product/" + this.state.image} />
                     <div className={styles.details}>
-
                         <input type="checkBox"
                                id={this.state.sku}
                                onChange={this.toggleSelected}
                                value={this.state.sku}
                                checked={this.state.selected}
                         />
-
                         <label htmlFor={this.state.sku}></label>
-
                         <p className={this.state.selected ? "" : styles.deselected}>
                             {this.state.name}
                         </p>

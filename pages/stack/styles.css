@@ -8,13 +8,12 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-
-.stackTop{
+.stackTop {
     position: relative;
     min-height: 110px;
 }
 
-.button{
+.button {
     background: black;
     border: none;
     text-transform: uppercase;
@@ -26,11 +25,13 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
-.button:focus{
+
+.button:focus {
     outline: 0;
 }
-.buttonActive{
-    border:2px solid black;
+
+.buttonActive {
+    border: 2px solid black;
     background: white;
     color: black;
 }
@@ -41,7 +42,7 @@
     top: 28px;
 }
 
-.instructions{
+.instructions {
     position: relative;
     text-transform: uppercase;
     text-align: center;
@@ -65,33 +66,63 @@
     position: relative;
 }
 
-.stackDetailsWrapper{
+.stackDetailsWrapper {
     margin: 40px 0;
 }
 
-.stackDetailsButton{
+.stackDetailsButton {
     margin: 0 0 20px 0;
 }
 
-.stackDetails{
+.stackDetails {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     background-color: #937a4c;
     color: white;
-    padding: 32px 0 36px 0;
-    display: none;
-    flex-direction: row;
+    height: 0;
+    overflow-y: hidden;
+    transition: height 0.75s ease;
+    -webkit-transition: height 0.75s ease;
+    -moz-transition: height 0.75s ease;
+    -o-transition: height 0.75s ease;
 }
 
-.stackDetailsHead{
+.stackDetailsVisible {
+    height: auto;
+    padding: 32px 0 36px 0;
+}
+
+.stackDetailsHead {
     text-transform: uppercase;
     border-bottom: 1px solid white;
 }
 
-.stackDetailsVisible{
-    display: flex;
-    justify-content: space-around;
+.removeInventoryItem {
+    width: 17px;
+    height: 17px;
+    text-indent: -9999px;
+    display: inline-block;
+    background: url(../../public/img/item-remove.png) no-repeat;
 }
 
-
+.tableHeader{
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size:20px;
+}
+.invoiceTotal{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.invoiceTotal:before{
+    content: "Total:";
+    position: absolute;
+    left: -60px;
+}
+.stackDetailsItem{
+    position: relative;
+}
 @media screen and (max-width: 1024px) {
 
     .content {

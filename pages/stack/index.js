@@ -14,10 +14,10 @@ import s from './styles.css';
 import {title, html} from './index.md';
 import history from '../../core/history';
 import store from '../../core/store';
-import Link from '../../components/Link';
 import StackItem from '../../components/StackItem/StackItem';
 import Sortable from 'sortablejs';
-import {UPDATE_INVENTORY} from "../../core/action-types";
+import {UPDATE_INVENTORY,REMOVE_ITEM} from "../../core/action-types";
+import NumericLabel from "../../components/NumericLabel";
 
 class StackPage extends React.Component {
 
@@ -25,10 +25,11 @@ class StackPage extends React.Component {
         super(props);
         this.orderUpdate = this.orderUpdate.bind(this);
         this.toggleDetails = this.toggleDetails.bind(this);
+        this.removeInventoryItem = this.removeInventoryItem.bind(this);
+        this.updateProps = this.updateProps.bind(this);
     }
 
     componentWillMount() {
-        document.title = title;
         this.state = {
             inventory: store.getState().stack,
             enoughSelected: (items=> {
@@ -40,9 +41,19 @@ class StackPage extends React.Component {
             })(store.getState().stack),
             showDetails: false
         };
+        store.subscribe(this.updateProps);
     }
 
-    sortableContainersDecorator = (componentBackingInstance) => {
+    updateProps() {
+        this.setState({
+            inventory: store.getState().stack,
+            enoughSelected: store.getState().stack.length > 2,
+            showDetails: this.state.showDetails
+        });
+
+    }
+
+    sortableContainersDecorator(componentBackingInstance){
         // check if backing instance not null
         if (componentBackingInstance) {
             let options = {
@@ -54,18 +65,7 @@ class StackPage extends React.Component {
         }
     };
 
-    renderError() {
-        return <div className={s.errorText}>
-            <h2>Whoops!</h2>
-            <p>
-                Would you look at that ... nothing to see here. <Link to="/choose">Go</Link>
-            </p>
-        </div>
-    }
-
     orderUpdate(e) {
-
-        console.log('StackPage::orderUpdate');
 
         for (var i = 0; i < e.from.children.length; i++) {
             var sku = e.from.children[i].getAttribute('data-sku');
@@ -88,70 +88,137 @@ class StackPage extends React.Component {
         history.push({pathname: "/choose"});
     }
 
-    toggleDetails(){
+    toggleDetails() {
         this.setState({
             showDetails: !this.state.showDetails
         })
     }
 
-    renderStack() {
-        return <div className={s.stackContainer}>
+    removeInventoryItem(e){
 
-            <div className={s.stackTop}>
-                <h2>Your Stack</h2>
-                <button className={s.button + " " + s.backButton} onClick={this.backClick}>Back</button>
-            </div>
+        e.preventDefault();
 
-            <div className={s.instructions}>
-                Drag to Rearrange
-            </div>
+        store.dispatch({
+            type: REMOVE_ITEM,
+            sku: e.target.getAttribute('data-sku')
+        });
 
-            <div className={s.stackWrapper + " sortable"} ref={this.sortableContainersDecorator}>
-                {this.state.inventory.map((item, index)=> {
+    }
 
-                    if (item.selected) {
+    render() {
+
+        if(!this.state.enoughSelected){
+            history.push({pathname: "/choose"});
+            return <div/>
+        }
+
+        var totalCost = 0,
+            currencyParams = {
+                justification: 'L',
+                currency: true,
+                currencyIndicator: 'USD',
+                percentage: false,
+                precision: 2,
+                commafy: true
+            };
+
+        this.state.inventory.map(item=> {
+            totalCost += item.price;
+        });
+
+        return <Layout className={s.content}>
+
+            <div className={s.stackContainer}>
+
+                <div className={s.stackTop}>
+                    <h2>Your Stack</h2>
+                    <button className={s.button + " " + s.backButton} onClick={this.backClick}>Back</button>
+                </div>
+
+                <div className={s.instructions}>
+                    Drag to Rearrange
+                </div>
+
+                <div className={s.stackWrapper + " sortable"} ref={this.sortableContainersDecorator}>
+
+                    {this.state.inventory.map((item, index)=> {
+
                         return <StackItem
                             className="stack-item"
                             state={item}
                             key={'stack-item-' + index}
                             stackOrder={index}
                         />
-                    }
 
-                })}
-            </div>
+                    })}
 
-            <div className={s.stackDetailsWrapper}>
-                <button className={s.stackDetailsButton + " " + s.button + " " + (this.state.showDetails ? s.buttonActive : "")} onClick={this.toggleDetails}>Details</button>
-                <div className={s.stackDetails + " " + (this.state.showDetails ? s.stackDetailsVisible : "")}>
+                </div>
 
-                    <div className={s.stackDetailsHead}>
-                        Product
-                    </div>
+                <div className={s.stackDetailsWrapper}>
 
-                    <div className={s.stackDetailsHead}>
-                        Sku
-                    </div>
+                    <button
+                        className={s.stackDetailsButton + " " + s.button + " " + (this.state.showDetails ? s.buttonActive : "")}
+                        onClick={this.toggleDetails}>Details
+                    </button>
 
-                    <div className={s.stackDetailsHead}>
-                        QTY
-                    </div>
+                    <div className={s.stackDetails + " " + (this.state.showDetails ? s.stackDetailsVisible : "")}>
 
-                    <div className={s.stackDetailsHead}>
-                        Price
+                        {/* Name */}
+                        <div className={s.stackDetailsItem}>
+                            <span className={s.tableHeader}>Name</span>
+                            {this.state.inventory.map((item, index) => {
+                                return <div key={'itemName-' + item.sku + '-' + index}>{item.name}</div>
+                            })}
+                        </div>
+
+                        {/* Sku */}
+                        <div className={s.stackDetailsItem}>
+                            <span className={s.tableHeader}>SKU</span>
+                            {this.state.inventory.map((item, index)=> {
+                                return <div key={'sku-' + item.sku + '-' + index}>{item.sku}</div>
+                            })}
+                        </div>
+
+                        {/* QTY */}
+                        <div className={s.stackDetailsItem}>
+                            <span className={s.tableHeader}>QTY</span>
+                            {this.state.inventory.map((item, index)=> {
+                                return <div key={'quantity-' + item.sku + '-' + index}>1</div>
+                            })}
+                        </div>
+
+                        {/* Price */}
+                        <div className={s.stackDetailsItem}>
+                            <span className={s.tableHeader}>Price</span>
+                            {this.state.inventory.map((item, index)=> {
+                                return <div key={'price-' + item.sku + '-' + index}><NumericLabel key={'price-' + item.sku + '-' + index + "-PRICE"} params={currencyParams}>{item.price}</NumericLabel></div>
+                            })}
+                            <div className={s.invoiceTotal}><NumericLabel key={'totalPrice'} params={currencyParams}>{totalCost}</NumericLabel></div>
+                        </div>
+
+                        {/* Clear */}
+                        <div className={s.stackDetailsItem}>
+                            <span>&nbsp;</span>
+                            {this.state.inventory.map((item, index) => {
+                                return <div><a href="#"
+                                               className={s.removeInventoryItem}
+                                               data-sku={item.sku}
+                                               onClick={this.removeInventoryItem}
+                                               key={"remove-item-" + item.sku + '-' + index}
+                                >Remove</a></div>
+                            })}
+                        </div>
+
+
+
+
                     </div>
 
                 </div>
-            </div>
-        </div>
-    }
 
-    render() {
-        return (
-            <Layout className={s.content}>
-                {this.state.enoughSelected ? this.renderStack() : this.renderError()}
-            </Layout>
-        );
+            </div>
+
+        </Layout>;
     }
 
 }

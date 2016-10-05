@@ -13,9 +13,8 @@ class StackItem extends React.Component {
     }
 
     render() {
-console.log(this.state);
         return (
-            <div className={styles.stackItem + " stack-item"} data-sku={this.state.sku}>
+            <div className={styles.stackItem + " stack-item"} data-sku={this.state.sku} key={'stack-item-' + this.state.sku}>
                 <img className={styles.stackItemImage} src={ "img/product/" + this.state.image } />
             </div>
         );

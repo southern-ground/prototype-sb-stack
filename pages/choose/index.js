@@ -23,7 +23,7 @@ class ChoosePage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {inventory: [], selectCount: 0, enableButton: false}
+        this.state = {inventory: [], selectCount: 0, enableButton: false};
         this.updateProps = this.updateProps.bind(this);
     }
 
@@ -37,7 +37,6 @@ class ChoosePage extends React.Component {
     }
 
     updateProps() {
-        console.log('updateProps');
         this.setState({
             inventory: store.getState().inventory,
             stack: store.getState().stack,
@@ -51,8 +50,6 @@ class ChoosePage extends React.Component {
     }
 
     render() {
-
-        console.log(s);
 
         return (
 
@@ -72,6 +69,7 @@ class ChoosePage extends React.Component {
                 </div>
 
                 <div className={s.sectionBottom}>
+
                     <div className={s.instructions}>
                         Choose at least three
                     </div>
@@ -84,7 +82,9 @@ class ChoosePage extends React.Component {
                             />
                         })}
                     </div>
+
                 </div>
+
             </Layout>
         );
     }

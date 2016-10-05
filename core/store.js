@@ -9,7 +9,7 @@
  */
 
 import {createStore} from 'redux';
-import {TOGGLE_ITEM, SET_INVENTORY, UPDATE_INVENTORY} from '../core/action-types';
+import {TOGGLE_ITEM, SET_INVENTORY, UPDATE_INVENTORY, REMOVE_ITEM} from '../core/action-types';
 
 // Centralized application state
 // For more information visit http://redux.js.org/
@@ -101,8 +101,8 @@ const initialState = {
             "selected": false
         },
         {
-            "sku": "SB-B9BOC",
-            "name": "Angie - Antique Brass - Crystal (SB-B9BOC?)",
+            "sku": "SB-B9SOBD",
+            "name": "Angie - Antique Silver - Black Diamond",
             "image": "SB-Angie-B95OBD.jpg",
             "price": 135,
             "selected": false
@@ -122,13 +122,6 @@ const initialState = {
             "selected": false
         },
         {
-            "sku": "SB-B7BOCHP",
-            "name": "Jessica - (SB-B7BOCHP?)",
-            "image": "SB-Jessica-B7BOCHP.jpg",
-            "price": 115,
-            "selected": false
-        },
-        {
             "sku": "SB-B7BOWO",
             "name": "Jessica - Antique Brass - Opal",
             "image": "SB-Jessica-B7BOWO.jpg",
@@ -143,22 +136,15 @@ const initialState = {
             "selected": false
         },
         {
-            "sku": "SB-B7HT",
-            "name": "Jessica - Hematite - Topaz",
+            "sku": "SB-B7BOCAP",
+            "name": "Jessica - Summer Pink",
             "image": "SB-Jessica-B7HT.jpg",
             "price": 115,
             "selected": false
         },
         {
-            "sku": "SB-B7PGV",
-            "name": "Jessica - (SB-B7PGV?)",
-            "image": "SB-Jessica-B7PGV.jpg",
-            "price": 115,
-            "selected": false
-        },
-        {
             "sku": "SB-B7PGWO",
-            "name": "Jessica - (SB-B7PGWO?)",
+            "name": "Jessica - Polished Gold - White Opal",
             "image": "SB-Jessica-B7PGWO.jpg",
             "price": 115,
             "selected": false
@@ -178,8 +164,8 @@ const initialState = {
             "selected": false
         },
         {
-            "sku": "SB-B75OBD",
-            "name": "Jessica - (SB-B75OBD?)",
+            "sku": "SB-B7SOBD",
+            "name": "Jessica - Antique Silver - Black Diamond",
             "image": "SB-Jessica-B75OBD.jpg",
             "price": 115,
             "selected": false
@@ -195,13 +181,6 @@ const initialState = {
             "sku": "SB-B18SO",
             "name": "Joan - Antique Silver",
             "image": "SB-Joan-B18SO.jpg",
-            "price": 78,
-            "selected": false
-        },
-        {
-            "sku": "SB-B1S3",
-            "name": "Logo Charm - (Silver SB-B1S3?)",
-            "image": "SB-Logo Charm-B1S3.jpg",
             "price": 78,
             "selected": false
         },
@@ -283,7 +262,7 @@ const initialState = {
             "selected": false
         }
     ],
-    stack:[],
+    stack: [],
     selectCount: 0
 };
 
@@ -300,7 +279,7 @@ const store = createStore((state = initialState, action) => {
                     if (item.sku === action.sku) {
                         item.selected = !item.selected;
                     }
-                    if (item.selected){
+                    if (item.selected) {
                         selectCount++;
                         stack.push(item);
                     }
@@ -328,6 +307,26 @@ const store = createStore((state = initialState, action) => {
 
                 })
             };
+        case REMOVE_ITEM:
+            var stack = [],
+                inventory = [],
+                newState = {
+                    ...state,
+                    inventory: state.inventory.map(item=> {
+                        if (item.sku === action.sku) {
+                            console.log('de-selecting an item');
+                            item.selected = false;
+                        }
+                        return item;
+                    }),
+                    stack: state.inventory.map(item=> {
+                        if (item.selected){
+                            return item;
+                        }
+                    })
+                };
+                console.log(newState);
+            return newState;
         default:
             return state;
     }
