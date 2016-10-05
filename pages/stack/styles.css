@@ -14,7 +14,7 @@
     min-height: 110px;
 }
 
-.backButton {
+.button{
     background: black;
     border: none;
     text-transform: uppercase;
@@ -22,6 +22,20 @@
     margin: 0;
     padding: 3px 20px;
     font-size: 26px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.button:focus{
+    outline: 0;
+}
+.buttonActive{
+    border:2px solid black;
+    background: white;
+    color: black;
+}
+
+.backButton {
     position: absolute;
     left: 0;
     top: 28px;
@@ -49,8 +63,34 @@
     margin: 40px auto 20px auto;
     padding: 0 0 20px;
     position: relative;
-
 }
+
+.stackDetailsWrapper{
+    margin: 40px 0;
+}
+
+.stackDetailsButton{
+    margin: 0 0 20px 0;
+}
+
+.stackDetails{
+    background-color: #937a4c;
+    color: white;
+    padding: 32px 0 36px 0;
+    display: none;
+    flex-direction: row;
+}
+
+.stackDetailsHead{
+    text-transform: uppercase;
+    border-bottom: 1px solid white;
+}
+
+.stackDetailsVisible{
+    display: flex;
+    justify-content: space-around;
+}
+
 
 @media screen and (max-width: 1024px) {
 

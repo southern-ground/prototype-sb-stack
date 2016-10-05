@@ -8,11 +8,32 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-@media screen and (max-width: 1024px) {
+.sectionColumn{
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+}
 
-    .content {
-        font-weight:300;
-        padding: 0 16px;
+.sectionTop{
+    position: relative;
+    min-height: 110px;
+}
+
+.sectionBottom{
+    float: none;
+    *zoom: 1;
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 40px auto 20px auto;
+    position: relative;
+}
+
+@media screen and (max-width: 1084px) {
+    .sectionBottom{
+        width: 100%;
+        margin-right: 20px;
+        margin-left: 20px;
     }
-
 }

@@ -32,7 +32,7 @@ class ChoosePage extends React.Component {
         document.title = title;
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.updateProps();
     }
 
@@ -58,7 +58,7 @@ class ChoosePage extends React.Component {
 
             <Layout>
 
-                <div className={s.chooseTop}>
+                <div className={s.sectionTop}>
 
                     <h2 className={s.title}>Build Your Stack</h2>
 
@@ -71,19 +71,20 @@ class ChoosePage extends React.Component {
 
                 </div>
 
-                <div className={s.instructions}>
-                    Choose at least three
-                </div>
+                <div className={s.sectionBottom}>
+                    <div className={s.instructions}>
+                        Choose at least three
+                    </div>
 
-                <div className={s.inventoryContainer}>
-                    {this.state.inventory.map((item, index)=> {
-                        return <InventoryItem
-                            state={item}
-                            key={'inv-' + item.sku + '-' + index}
-                        />
-                    })}
+                    <div className={"inventory--container " + s.inventoryContainer}>
+                        {this.state.inventory.map((item, index)=> {
+                            return <InventoryItem
+                                state={item}
+                                key={'inv-' + item.sku + '-' + index}
+                            />
+                        })}
+                    </div>
                 </div>
-
             </Layout>
         );
     }

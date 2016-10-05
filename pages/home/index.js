@@ -26,25 +26,17 @@ class HomePage extends React.Component {
     }
 
     render() {
-        console.log(s);
         return (
-            <Layout className="sb-content">
+            <Layout className={s.sectionColumn}>
 
-                <h2 className="sb-content--title">Build Your Stack</h2>
-
-                <div>
-                    Click <Link className="" to="/choose">here</Link> to get started.
+                <div className={s.sectionTop}>
+                    <h2>Build Your Stack</h2>
                 </div>
 
-                {/*<h4>Articles</h4>
-                 <ul>
-                 {this.props.articles.map((article, i) =>
-                 <li key={i}><a href={article.url}>{article.title}</a> by {article.author}</li>
-                 )}
-                 </ul>*/}
-                <p>
-                    <br /><br />
-                </p>
+                <div className={s.sectionBottom}>
+                    Click&nbsp;<Link className="" to="/choose"> here </Link>&nbsp;to get started.
+                </div>
+
             </Layout>
         );
     }

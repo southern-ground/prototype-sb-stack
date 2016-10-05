@@ -24,11 +24,11 @@ class StackPage extends React.Component {
     constructor(props) {
         super(props);
         this.orderUpdate = this.orderUpdate.bind(this);
+        this.toggleDetails = this.toggleDetails.bind(this);
     }
 
     componentWillMount() {
         document.title = title;
-
         this.state = {
             inventory: store.getState().stack,
             enoughSelected: (items=> {
@@ -37,7 +37,8 @@ class StackPage extends React.Component {
                     if (item.selected) count++;
                 });
                 return count > 2;
-            })(store.getState().stack)
+            })(store.getState().stack),
+            showDetails: false
         };
     }
 
@@ -87,12 +88,18 @@ class StackPage extends React.Component {
         history.push({pathname: "/choose"});
     }
 
+    toggleDetails(){
+        this.setState({
+            showDetails: !this.state.showDetails
+        })
+    }
+
     renderStack() {
         return <div className={s.stackContainer}>
 
             <div className={s.stackTop}>
                 <h2>Your Stack</h2>
-                <button className={s.backButton} onClick={this.backClick}>Back</button>
+                <button className={s.button + " " + s.backButton} onClick={this.backClick}>Back</button>
             </div>
 
             <div className={s.instructions}>
@@ -112,6 +119,29 @@ class StackPage extends React.Component {
                     }
 
                 })}
+            </div>
+
+            <div className={s.stackDetailsWrapper}>
+                <button className={s.stackDetailsButton + " " + s.button + " " + (this.state.showDetails ? s.buttonActive : "")} onClick={this.toggleDetails}>Details</button>
+                <div className={s.stackDetails + " " + (this.state.showDetails ? s.stackDetailsVisible : "")}>
+
+                    <div className={s.stackDetailsHead}>
+                        Product
+                    </div>
+
+                    <div className={s.stackDetailsHead}>
+                        Sku
+                    </div>
+
+                    <div className={s.stackDetailsHead}>
+                        QTY
+                    </div>
+
+                    <div className={s.stackDetailsHead}>
+                        Price
+                    </div>
+
+                </div>
             </div>
         </div>
     }

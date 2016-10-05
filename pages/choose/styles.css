@@ -8,6 +8,19 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+.sectionColumn{
+    position: relative;
+    min-height: 110px;
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.sectionTop{
+    position: relative;
+    min-height: 110px;
+}
+
 .viewButton{
     background: black;
     border: none;
@@ -23,10 +36,6 @@
 .buttonDisabled{
     opacity: 0.6;
 }
-.chooseTop{
-    position: relative;
-    min-height: 110px;
-}
 .instructions{
     position: relative;
     text-transform: uppercase;
@@ -36,8 +45,6 @@
 }
 .inventoryContainer{
     float: none;
-    font-family: 'Raleway', serif;
-    font-weight: 300;
     *zoom: 1;
     margin: 0 auto;
     display: flex;
