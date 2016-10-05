@@ -31,26 +31,26 @@ class InventoryItem extends React.Component {
 
     render() {
 
-        var rgbValue = this.rgbToHex(this.state.background.red,
-                this.state.background.green,
-                this.state.background.blue),
-            style = {
-                "backgroundColor": rgbValue
-            };
-
         return (
-            <div className={styles.inventoryItem} style={style}>
+            <div className={styles.inventoryItem}>
                 <div className={styles.inventoryItemDetails}>
-                    <div >
+                    <img className={styles.inventoryImage} src={"img/product/" + this.state.image} />
+                    <div className={styles.details}>
+
                         <input type="checkBox"
+                               id={this.state.sku}
                                onChange={this.toggleSelected}
                                value={this.state.sku}
                                checked={this.state.selected}
                         />
+
+                        <label htmlFor={this.state.sku}></label>
+
+                        <p className={this.state.selected ? "" : styles.deselected}>
+                            {this.state.name}
+                        </p>
                     </div>
-                    <p className={this.state.selected ? "" : styles.deselected}>
-                        {this.state.name}
-                    </p>
+                    <hr className={styles.separator} />
                 </div>
             </div>
         );

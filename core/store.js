@@ -17,103 +17,269 @@ import {TOGGLE_ITEM, SET_INVENTORY, UPDATE_INVENTORY} from '../core/action-types
 const initialState = {
     inventory: [
         {
-            "sku": "644DA5F7-41F2-5FD4-88F3-28B2A87EA43B",
-            "name": "Vance",
-            "background": {
-                "red": 27,
-                "green": 226,
-                "blue": 130
-            },
+            "sku": "SB-B8BOP",
+            "name": "Alexandria - Antique Brass - Green",
+            "image": "SB-Alexandria-B8B0P.jpg",
+            "price": 115,
             "selected": false
         },
         {
-            "sku": "43E8D8BF-57A1-9586-04FD-68405F70A673",
-            "name": "Nicole",
-            "background": {
-                "red": 149,
-                "green": 140,
-                "blue": 18
-            },
+            "sku": "SB-B8BOJ",
+            "name": "Alexandria - Antique Brass - Jet",
+            "image": "Sb-Alexandria-B8BOJ.jpg",
+            "price": 115,
             "selected": false
         },
         {
-            "sku": "BB661815-F56C-14ED-158D-2224F76DF1CD",
-            "name": "Sloane",
-            "background": {
-                "red": 153,
-                "green": 125,
-                "blue": 82
-            },
+            "sku": "SB-B8BOR",
+            "name": "Alexandria - Antique Brass - Pink",
+            "image": "SB-Alexandria-B8BOR.jpg",
+            "price": 115,
             "selected": false
         },
         {
-            "sku": "F7E7FD56-288D-AE73-9A81-4E35699C9726",
-            "name": "Patience",
-            "background": {
-                "red": 203,
-                "green": 81,
-                "blue": 47
-            },
+            "sku": "SB-B8HT",
+            "name": "Alexandria - Hematite - Topaz",
+            "image": "SB-Alexandria-B8HT.jpg",
+            "price": 115,
             "selected": false
         },
         {
-            "sku": "76E0D8C4-A920-47E7-144F-1DAE96EE949A",
-            "name": "Nina",
-            "background": {
-                "red": 215,
-                "green": 50,
-                "blue": 127
-            },
+            "sku": "SB-B8PGBD",
+            "name": "Alexandria - Polished Gold - Smoke",
+            "image": "SB-Alexandria-B8PGBD.jpg",
+            "price": 115,
             "selected": false
         },
         {
-            "sku": "43D9DE8D-6162-F51E-2D03-02B9089CC5F3",
-            "name": "Wesley",
-            "background": {
-                "red": 229,
-                "green": 35,
-                "blue": 121
-            },
+            "sku": "SB-B8SOJ",
+            "name": "Alexandria - Antique Silver - Jet",
+            "image": "SB-Alexandria-B8SOJ.jpg",
+            "price": 115,
             "selected": false
         },
         {
-            "sku": "16377799-0EE7-7131-816E-182BD5E307B3",
-            "name": "Ora",
-            "background": {
-                "red": 140,
-                "green": 139,
-                "blue": 53
-            },
+            "sku": "SB-B8SOLS",
+            "name": "Alexandria - Antique Silver - Ocean",
+            "image": "SB-Alexandria-B8SOLS.jpg",
+            "price": 115,
             "selected": false
         },
         {
-            "sku": "70FD95C7-E77B-74FF-59ED-392C9D220FB0",
-            "name": "Hiram",
-            "background": {
-                "red": 106,
-                "green": 46,
-                "blue": 196
-            },
+            "sku": "SB-B8SOBD",
+            "name": "Alexandria - Antique Silver - Smoke",
+            "image": "SB-Alexandria-B8SOPD.jpg",
+            "price": 115,
             "selected": false
         },
         {
-            "sku": "BCC762B3-6E24-CEA8-C7FC-AB42868E207D",
-            "name": "Guinevere",
-            "background": {
-                "red": 31,
-                "green": 199,
-                "blue": 124
-            },
+            "sku": "SB-B8SSOS",
+            "name": "Alexandria - Antique Silver - Siam",
+            "image": "SB-Alexandria-B8SOS.jpg",
+            "price": 115,
             "selected": false
         },
         {
-            "sku": "164E9783-183C-F0F6-B233-B780209564FA",
-            "name": "Petra",
-            "background": {
-                "red": 233,
-                "green": 206,
-                "blue": 104
-            },
+            "sku": "SB-B9PGV",
+            "name": "Angie - Polished Gold - Mirrored Pink",
+            "image": "SB-Angie-B9PGV.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
+            "sku": "SB-B9SOM",
+            "name": "Angie - Antique Silver - Sailor",
+            "image": "SB-Angie-B9SOM.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
+            "sku": "SB-B9SOS",
+            "name": "Angie - Antique Silver - Siam",
+            "image": "SB-Angie-B9SOS.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
+            "sku": "SB-B9BOC",
+            "name": "Angie - Antique Brass - Crystal (SB-B9BOC?)",
+            "image": "SB-Angie-B95OBD.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
+            "sku": "SB-B3SOWO",
+            "name": "Emily - Antique Silver - Opal",
+            "image": "SB-Emily-B35OWO.jpg",
+            "price": 125,
+            "selected": false
+        },
+        {
+            "sku": "SB-B4SOC",
+            "name": "Flock - Antique Silver - Crystal",
+            "image": "SB-Flock-B4SOC.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7BOCHP",
+            "name": "Jessica - (SB-B7BOCHP?)",
+            "image": "SB-Jessica-B7BOCHP.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7BOWO",
+            "name": "Jessica - Antique Brass - Opal",
+            "image": "SB-Jessica-B7BOWO.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7HSM",
+            "name": "Jessica - Hematite - Mauve",
+            "image": "SB-Jessica-B7HSM.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7HT",
+            "name": "Jessica - Hematite - Topaz",
+            "image": "SB-Jessica-B7HT.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7PGV",
+            "name": "Jessica - (SB-B7PGV?)",
+            "image": "SB-Jessica-B7PGV.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7PGWO",
+            "name": "Jessica - (SB-B7PGWO?)",
+            "image": "SB-Jessica-B7PGWO.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7RMGCLS",
+            "name": "Jessica - Roman Gold - Lilac",
+            "image": "SB-Jessica-B7RMGCLS.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7SOM",
+            "name": "Jessica - Antique Silver - Sailor",
+            "image": "SB-Jessica-B7SOM.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B75OBD",
+            "name": "Jessica - (SB-B75OBD?)",
+            "image": "SB-Jessica-B75OBD.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B18RMG",
+            "name": "Joan - Roman Gold",
+            "image": "SB-Joan-B18RMG.jpg",
+            "price": 78,
+            "selected": false
+        },
+        {
+            "sku": "SB-B18SO",
+            "name": "Joan - Antique Silver",
+            "image": "SB-Joan-B18SO.jpg",
+            "price": 78,
+            "selected": false
+        },
+        {
+            "sku": "SB-B1S3",
+            "name": "Logo Charm - (Silver SB-B1S3?)",
+            "image": "SB-Logo Charm-B1S3.jpg",
+            "price": 78,
+            "selected": false
+        },
+        {
+            "sku": "SB-B13PG",
+            "name": "Logo Charm - Polished Gold",
+            "image": "SB-Logo Charm-B13PG.jpg",
+            "price": 78,
+            "selected": false
+        },
+        {
+            "sku": "SB-B13S",
+            "name": "Logo Charm - Silver",
+            "image": "SB-Logo Charm-B13S.jpg",
+            "price": 78,
+            "selected": false
+        },
+        {
+            "sku": "SB-B2PG",
+            "name": "Logo Bracelet - Polished Gold",
+            "image": "SB-Logo-B2PG.jpg",
+            "price": 98,
+            "selected": false
+        },
+        {
+            "sku": "SB-B17GRTE",
+            "name": "Mary - Gold - Red Tiger's Eye",
+            "image": "SB-Mary-B17GRTE.jpg",
+            "price": 110,
+            "selected": false
+        },
+        {
+            "sku": "SB-B17SWH",
+            "name": "Mary - Silver - White Howlite",
+            "image": "SB-Mary-B17WH.jpg",
+            "price": 110,
+            "selected": false
+        },
+        {
+            "sku": "SB-B16SO",
+            "name": "Peek - Antique Silver",
+            "image": "SB-Peek-B16PG.jpg",
+            "price": 145,
+            "selected": false
+        },
+        {
+            "sku": "SB-B16PG",
+            "name": "Peek - Polished Gold",
+            "image": "SB-Peek-B16SO.jpg",
+            "price": 145,
+            "selected": false
+        },
+        {
+            "sku": "SB-B10PG",
+            "name": "Penelope - Polished Gold",
+            "image": "SB-Penelope-B10PG.jpg",
+            "price": 98,
+            "selected": false
+        },
+        {
+            "sku": "SB-B1OBOWOM",
+            "name": "Protector - Antique Brass - Mystique",
+            "image": "SB-Protector-B1OBOWOM.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
+            "sku": "SB-B1OSOCO",
+            "name": "Protector - Antique Silver - Mermaid",
+            "image": "SB-Protector-B1OSOCO.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
+            "sku": "SB-B1SORWO",
+            "name": "Protector - Antique Brass - Rose Water Opal",
+            "image": "SB-Protector-B1SORWO.jpg",
+            "price": 135,
             "selected": false
         }
     ],
@@ -141,8 +307,6 @@ const store = createStore((state = initialState, action) => {
                     return item;
                 }), stack: stack
             };
-
-            console.log('eabod?');
 
             return newState;
 

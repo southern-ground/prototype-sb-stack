@@ -76,7 +76,7 @@ class ChoosePage extends React.Component {
                         Choose at least three
                     </div>
 
-                    <div className={"inventory--container " + s.inventoryContainer}>
+                    <div className={s.inventoryContainer}>
                         {this.state.inventory.map((item, index)=> {
                             return <InventoryItem
                                 state={item}
