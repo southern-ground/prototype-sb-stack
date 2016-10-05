@@ -17,10 +17,6 @@ import store from '../../core/store';
 
 class HomePage extends React.Component {
 
-    static propTypes = {
-        articles: PropTypes.array.isRequired,
-    };
-
     componentDidMount() {
         document.title = title;
     }

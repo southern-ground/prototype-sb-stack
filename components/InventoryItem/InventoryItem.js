@@ -19,9 +19,7 @@ class InventoryItem extends React.Component {
     }
 
     toggleSelected(e) {
-
         store.dispatch({type: TOGGLE_ITEM, sku: e.target.value});
-
     }
 
     render() {
