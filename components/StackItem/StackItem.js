@@ -12,26 +12,11 @@ class StackItem extends React.Component {
         this.state = this.props.state;
     }
 
-    rgbToHex(r, g, b) {
-        var componentToHex = function (c) {
-            var hex = c.toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
-        };
-        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-    }
-
     render() {
-
-        var rgbValue = this.rgbToHex(this.state.background.red,
-            this.state.background.green,
-            this.state.background.blue),
-            style = {
-                "backgroundColor": rgbValue
-            };
-
+console.log(this.state);
         return (
-            <div className={styles.stackItem + " stack-item"} style={style} data-sku={this.state.sku}>
-                {this.state.name}
+            <div className={styles.stackItem + " stack-item"} data-sku={this.state.sku}>
+                <img className={styles.stackItemImage} src={ "img/product/" + this.state.image } />
             </div>
         );
     }
