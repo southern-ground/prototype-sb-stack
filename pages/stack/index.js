@@ -88,13 +88,18 @@ class StackPage extends React.Component {
         history.push({pathname: "/choose"});
     }
 
-    toggleDetails(){
+    toggleDetails() {
         this.setState({
             showDetails: !this.state.showDetails
         })
     }
 
     renderStack() {
+        var totalPrice = 0;
+        this.state.inventory.map((item, index)=> {
+            totalPrice += item.price;
+        });
+
         return <div className={s.stackContainer}>
 
             <div className={s.stackTop}>
@@ -122,23 +127,55 @@ class StackPage extends React.Component {
             </div>
 
             <div className={s.stackDetailsWrapper}>
-                <button className={s.stackDetailsButton + " " + s.button + " " + (this.state.showDetails ? s.buttonActive : "")} onClick={this.toggleDetails}>Details</button>
+                <button
+                    className={s.stackDetailsButton + " " + s.button + " " + (this.state.showDetails ? s.buttonActive : "")}
+                    onClick={this.toggleDetails}>Details
+                </button>
                 <div className={s.stackDetails + " " + (this.state.showDetails ? s.stackDetailsVisible : "")}>
 
-                    <div className={s.stackDetailsHead}>
-                        Product
+                    <div>
+                        <span className={s.stackDetailsHead}>Product</span>
+                        {this.state.inventory.map((item, index)=> {
+                            return (
+                                <div key={"item-name-" + index}>{item.name}</div>
+                            )
+                        })}
                     </div>
 
-                    <div className={s.stackDetailsHead}>
-                        Sku
+                    <div>
+                        <span className={s.stackDetailsHead}>Sku</span>
+                        {this.state.inventory.map((item, index)=> {
+                            return (
+                                <div key={"item-sku-" + index}>{item.sku}</div>
+                            );
+                        })}
                     </div>
 
-                    <div className={s.stackDetailsHead}>
-                        QTY
+                    <div>
+                        <span className={s.stackDetailsHead}>QTY</span>
+                        {this.state.inventory.map((item, index)=> {
+                            return (
+                                <div key={"item-qty-" + index}>1</div>
+                            );
+                        })}
                     </div>
 
-                    <div className={s.stackDetailsHead}>
-                        Price
+                    <div>
+                        <span className={s.stackDetailsHead}>Price</span>
+                        {this.state.inventory.map((item, index)=> {
+                            return (
+                                <div key={"item-price-" + index}>{item.price}</div>
+                            );
+                        })}
+                    </div>
+
+                    <div>
+                        <span>&nbsp;</span>
+                        {this.state.inventory.map((item, index)=> {
+                            return (
+                                <div key={"item-remove-" + index}><a href="#" className={s.removeItemLink}></a></div>
+                            );
+                        })}
                     </div>
 
                 </div>
