@@ -1,4 +1,5 @@
 archive
 node_modules
-public/dist
-public
+index.html
+sitemap.xml
+assets.json
