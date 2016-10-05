@@ -8,23 +8,27 @@
 * LICENSE.txt file in the root directory of this source tree.
 */
 
-.row {
-  padding: 40px;
+.pageHeader {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 0 0 38px 0;
 }
 
-.title {
-  color: #fff;
-  text-decoration: none;
+.headerLogo {
+    width: 76px;
+    height: 76px;
+    margin: 33px 0 12px 0;
 }
 
+.headerTitle{
+    text-transform: uppercase;
+    font-size: 1.374rem;
+}
 @media screen and (max-width: 1024px) {
 
-  .header {
-    display: flex;
-  }
-
-  .row {
-    padding: 0 16px;
-  }
 
 }

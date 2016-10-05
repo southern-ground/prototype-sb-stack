@@ -8,8 +8,30 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+:root{
+    font-family: 'Raleway', serif !important;
+}
+
 .content {
-  margin: 0 auto;
-  max-width: 1000px;
-  width: 100%;
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+}
+
+h2 {
+    font-weight: 300;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 4px;
+    position: absolute;
+    width: 100%;
+    border-bottom: 2px solid #bababa;
+    padding: 0 0 18px 0;
+}
+
+
+
+footer{
+    text-transform: uppercase;
 }

@@ -57,7 +57,7 @@ class StackPage extends React.Component {
         return <div className={s.errorText}>
             <h2>Whoops!</h2>
             <p>
-                Would you look at that ... nothing to see here. <Link to="/compare">Go</Link>
+                Would you look at that ... nothing to see here. <Link to="/choose">Go</Link>
             </p>
         </div>
     }
@@ -89,10 +89,16 @@ class StackPage extends React.Component {
 
     renderStack() {
         return <div className={s.stackContainer}>
-            <div dangerouslySetInnerHTML={{__html: html}}/>
-            <div>
-                To start over you can click the "Home" button in the header (or <Link className="mdl-navigation__link" to="/">here</Link>), or the "Back" button below.
+
+            <div className={s.stackTop}>
+                <h2>Your Stack</h2>
+                <button className={s.backButton} onClick={this.backClick}>Back</button>
             </div>
+
+            <div className={s.instructions}>
+                Drag to Rearrange
+            </div>
+
             <div className={s.stackWrapper + " sortable"} ref={this.sortableContainersDecorator}>
                 {this.state.inventory.map((item, index)=> {
 
@@ -107,16 +113,12 @@ class StackPage extends React.Component {
 
                 })}
             </div>
-            <div>
-                <button onClick={this.backClick}>Back</button>
-            </div>
         </div>
     }
 
     render() {
         return (
             <Layout className={s.content}>
-                <h1>{title}</h1>
                 {this.state.enoughSelected ? this.renderStack() : this.renderError()}
             </Layout>
         );

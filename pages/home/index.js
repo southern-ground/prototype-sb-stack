@@ -8,43 +8,46 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import Layout from '../../components/Layout';
 import s from './styles.css';
-import { title, html } from './index.md';
+import {title, html} from './index.md';
 import Link from '../../components/Link';
 import store from '../../core/store';
 
 class HomePage extends React.Component {
 
-  static propTypes = {
-    articles: PropTypes.array.isRequired,
-  };
+    static propTypes = {
+        articles: PropTypes.array.isRequired,
+    };
 
-  componentDidMount() {
-    document.title = title;
-  }
+    componentDidMount() {
+        document.title = title;
+    }
 
-  render() {
-    return (
-      <Layout className={s.content + ", " + s.cf}>
-        <div dangerouslySetInnerHTML={{ __html: html }} />
-        <div>
-            You can click the "Choose" link in the header (or <Link className="mdl-navigation__link" to="/choose">here</Link>) to select which items you want to compare.
-        </div>
+    render() {
+        console.log(s);
+        return (
+            <Layout className="sb-content">
 
-        {/*<h4>Articles</h4>
-        <ul>
-          {this.props.articles.map((article, i) =>
-            <li key={i}><a href={article.url}>{article.title}</a> by {article.author}</li>
-          )}
-        </ul>*/}
-        <p>
-          <br /><br />
-        </p>
-      </Layout>
-    );
-  }
+                <h2 className="sb-content--title">Build Your Stack</h2>
+
+                <div>
+                    Click <Link className="" to="/choose">here</Link> to get started.
+                </div>
+
+                {/*<h4>Articles</h4>
+                 <ul>
+                 {this.props.articles.map((article, i) =>
+                 <li key={i}><a href={article.url}>{article.title}</a> by {article.author}</li>
+                 )}
+                 </ul>*/}
+                <p>
+                    <br /><br />
+                </p>
+            </Layout>
+        );
+    }
 
 }
 

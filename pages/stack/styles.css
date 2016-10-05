@@ -8,20 +8,54 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-.stackContainer{
-  margin: 0 auto;
-}
-.stackContainer > .stackWrapper{
-  width: 200px;
-  margin: 0 auto;
-  padding: 0 0 20px;
+
+.stackTop{
+    position: relative;
+    min-height: 110px;
 }
 
+.backButton {
+    background: black;
+    border: none;
+    text-transform: uppercase;
+    color: white;
+    margin: 0;
+    padding: 3px 20px;
+    font-size: 26px;
+    position: absolute;
+    left: 0;
+    top: 28px;
+}
+
+.instructions{
+    position: relative;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+}
+
+.stackContainer {
+    margin: 0 auto;
+}
+
+.stackContainer > .stackWrapper {
+    width: 200px;
+    *zoom: 1;
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 40px auto 20px auto;
+    padding: 0 0 20px;
+    position: relative;
+
+}
 
 @media screen and (max-width: 1024px) {
 
-  .content {
-    padding: 0 16px;
-  }
+    .content {
+        padding: 0 16px;
+    }
 
 }

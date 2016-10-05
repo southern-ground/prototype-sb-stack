@@ -52,20 +52,27 @@ class ChoosePage extends React.Component {
 
     render() {
 
+        console.log(s);
+
         return (
 
-            <Layout className={s.content}>
+            <Layout>
 
-                <h1>{title}</h1>
+                <div className={s.chooseTop}>
 
-                <div dangerouslySetInnerHTML={{__html: html}}/>
+                    <h2 className={s.title}>Build Your Stack</h2>
 
-                <div className={s.inventoryNav}>
-                    {this.state.selectCount} item(s) selected
-                    <button disabled={!this.state.enableButton} onClick={this.compareClick}
-                            className={this.state.enableButton ? "" : s.buttonDisabled}>
-                        See how they stack up
+                    <button
+                        disabled={!this.state.enableButton}
+                        onClick={this.compareClick}
+                        className={s.viewButton + " " + (this.state.enableButton ? "" : s.buttonDisabled)}>
+                        View
                     </button>
+
+                </div>
+
+                <div className={s.instructions}>
+                    Choose at least three
                 </div>
 
                 <div className={s.inventoryContainer}>
