@@ -53,7 +53,7 @@ class StackPage extends React.Component {
 
     }
 
-    sortableContainersDecorator(componentBackingInstance) {
+    sortableContainersDecorator = (componentBackingInstance) => {
         // check if backing instance not null
         if (componentBackingInstance) {
             let options = {
