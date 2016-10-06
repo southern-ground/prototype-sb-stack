@@ -32,7 +32,7 @@ class InventoryItem extends React.Component {
     render() {
 
         return (
-            <div className={styles.inventoryItem} onClick={this.tileClicked}>
+            <div className={styles.inventoryItem + (this.state.new ? " " + styles.newItem : "")} onClick={this.tileClicked}>
                 <div className={styles.inventoryItemDetails}>
                     <img className={styles.inventoryImage} src={"img/product/" + this.state.image} />
                     <div className={styles.details}>

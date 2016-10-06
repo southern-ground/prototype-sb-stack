@@ -1,5 +1,8 @@
 .inventoryItem{
     width: 295px;
+    position: relative;
+    overflow:hidden;
+    cursor: pointer;
 }
 .inventoryItemDetails{
     padding: 10px;
@@ -63,6 +66,31 @@ input[type="checkbox"]:checked + label {
     background-image: -moz-linear-gradient(left, #ffffff, #d2d1d2, #ffffff);
     background-image: -ms-linear-gradient(left, #ffffff, #d2d1d2, #ffffff);
     background-image: -o-linear-gradient(left, #ffffff, #d2d1d2, #ffffff);
+}
+
+.newItem:after{
+
+    background: #937a4c;
+    color: white;
+
+    width: 80px;
+    height: 80px;
+
+    content: "NEW!";
+    position: absolute;
+
+    top: -40px;
+    right: -40px;
+
+    align-items: flex-end;
+    justify-content: center;
+
+    display: flex;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 @media screen and (max-width: 632px) {
