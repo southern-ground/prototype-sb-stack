@@ -154,6 +154,41 @@ class StackPage extends React.Component {
                 </button>
                 <div className={s.stackDetails + " " + (this.state.showDetails ? s.stackDetailsVisible : "")}>
 
+                    {/*<div className={s.flexRow}>
+                        <div><span className={s.tableHeader}>Name</span></div>
+                        <div><span className={s.tableHeader}>SKU</span></div>
+                        <div><span className={s.tableHeader}>QTY</span></div>
+                        <div><span className={s.tableHeader}>Price</span></div>
+                        <div><span>&nbsp;</span></div>
+                    </div>
+
+                    {this.state.inventory.map((item, index) => {
+                        return <div className={s.flexRow + " " + s.flexRowItem} key={'item-' + item.sku + '-' + index}>
+                            <div>{item.name}</div>
+                            <div>{item.sku}</div>
+                            <div className={s.detailCenter}>1</div>
+                            <div><NumericLabel
+                                params={currencyParams}>{item.price}</NumericLabel></div>
+                            <div className={s.detailCenter}>
+                                <a href="#"
+                                   className={s.removeInventoryItem}
+                                   data-sku={item.sku}
+                                   onClick={this.removeInventoryItem}
+                                   key={"remove-item-" + item.sku + '-' + index}
+                                >Remove</a>
+                            </div>
+                        </div>
+                    })}
+
+                    <div className={s.flexRow}>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div className={s.total}><NumericLabel
+                            params={currencyParams}>{totalCost}</NumericLabel></div>
+                        <div></div>
+                    </div>*/}
+
                     <div className={s.stackDetailsItem}>
                         <span className={s.tableHeader}>Name</span>
                         {this.state.inventory.map((item, index) => {
@@ -182,11 +217,13 @@ class StackPage extends React.Component {
                                 key={'price-' + item.sku + '-' + index + "-PRICE"}
                                 params={currencyParams}>{item.price}</NumericLabel></div>
                         })}
-                        <div className={s.invoiceTotal}><NumericLabel key={'totalPrice'}
-                                                                      params={currencyParams}>{totalCost}</NumericLabel>
+                        <div className={s.invoiceTotal}>
+                            <NumericLabel key={'totalPrice'}
+                                          params={currencyParams}>
+                                {totalCost}
+                            </NumericLabel>
                         </div>
                     </div>
-
 
                     <div className={s.stackDetailsItem}>
                         <span>&nbsp;</span>

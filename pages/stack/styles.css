@@ -123,6 +123,50 @@
 .stackDetailsItem{
     position: relative;
 }
+
+.total{
+    font-weight: bold;
+    font-size: 1.2;
+
+}
+.total:before{
+    content: "Total:";
+    position: absolute;
+    left: -60px;
+}
+.flexRow{
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+}
+
+.flexRowItem{
+    border-bottom: 1px solid white;
+
+}
+.flexRow > div{
+    padding: 0 20px;
+}
+.flexRow > div:nth-child(1){
+    width:45%;
+}
+.flexRow > div:nth-child(2){
+    width: 20%;
+}
+.flexRow > div:nth-child(3){
+    width: 5%;
+}
+.flexRow > div:nth-child(4) {
+    width: 20%;
+}
+.flexRow > div:nth-child(5){
+    width: 10%;
+}
+.detailCenter{
+    text-align: center;
+}
 @media screen and (max-width: 1024px) {
 
     .content {
