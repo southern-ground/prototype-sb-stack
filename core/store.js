@@ -18,6 +18,20 @@ import _ from '../node_modules/lodash';
 const initialState = {
     inventory: [
         {
+            "sku": "SB-B8ACM",
+            "name": "## NEW ## Alexandria (?)",
+            "image": "SB-Alexandria-B8ACM.jpg",
+            "price": 0,
+            "selected": false
+        },
+        {
+            "sku": "SB-B8BOC",
+            "name": "## NEW ## Alexandria - Antique Brass - Crystal",
+            "image": "SB-Alexandria-B8BOC.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
             "sku": "SB-B8BOP",
             "name": "Alexandria - Antique Brass - Green",
             "image": "SB-Alexandria-B8B0P.jpg",
@@ -35,6 +49,20 @@ const initialState = {
             "sku": "SB-B8BOR",
             "name": "Alexandria - Antique Brass - Pink",
             "image": "SB-Alexandria-B8BOR.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B8SOC",
+            "name": "## NEW ## Alexandria - Antique Silver - Crystal",
+            "image": "SB-Alexandria-B8SOC.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B8SOM",
+            "name": "## NEW ## Alexandria - Antique Silver - Sailor",
+            "image": "SB-Alexandria-B8SOM.jpg",
             "price": 115,
             "selected": false
         },
@@ -81,9 +109,37 @@ const initialState = {
             "selected": false
         },
         {
+            "sku": "SB-B9BOC",
+            "name": "## NEW ## Angie - Antique Brass - Crystal",
+            "image": "SB-Angie-B9BOC.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
+            "sku": "SB-B9HC",
+            "name": "## NEW ## Angie - Hematite - Crystal",
+            "image": "SB-Angie-B9HC.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
             "sku": "SB-B9PGV",
             "name": "Angie - Polished Gold - Mirrored Pink",
             "image": "SB-Angie-B9PGV.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
+            "sku": "SB-B9PGBD",
+            "name": "## NEW ## Angie - Polished Gold - Smoke",
+            "image": "SB-Angie-B9PGBD.jpg",
+            "price": 135,
+            "selected": false
+        },
+        {
+            "sku": "SB-B9SOC",
+            "name": "## NEW ## Angie - Antique Silver - Crystal",
+            "image": "SB-Angie-B9SOC.jpg",
             "price": 135,
             "selected": false
         },
@@ -123,9 +179,23 @@ const initialState = {
             "selected": false
         },
         {
+            "sku": "SB-B7BOC",
+            "name": "## NEW ## Jessica - Antique Brass - Crystal",
+            "image": "SB-Jessica-B7BOC.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
             "sku": "SB-B7BOWO",
             "name": "Jessica - Antique Brass - Opal",
             "image": "SB-Jessica-B7BOWO.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7SOC",
+            "name": "## NEW ## Jessica - Antique Silver - Crystal",
+            "image": "SB-Jessica-B7SOC.jpg",
             "price": 115,
             "selected": false
         },
@@ -137,9 +207,23 @@ const initialState = {
             "selected": false
         },
         {
+            "sku": "SB-B7HCSS",
+            "name": "## NEW ## Jessica - Hematite - Silver Shade",
+            "image": "SB-Jessica-B7HCSS.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
             "sku": "SB-B7BOCAP",
             "name": "Jessica - Summer Pink",
             "image": "SB-Jessica-B7HT.jpg",
+            "price": 115,
+            "selected": false
+        },
+        {
+            "sku": "SB-B7PGBD",
+            "name": "## NEW ## Jessica - Polished Gold - Smoke",
+            "image": "SB-Jessica-B7PGBD.jpg",
             "price": 115,
             "selected": false
         },
@@ -200,9 +284,37 @@ const initialState = {
             "selected": false
         },
         {
-            "sku": "SB-B2PG",
+            "sku": "SB-B2BO",
+            "name": "## NEW ## Logo Bracelet - Antique Brass",
+            "image": "SB-Logo-SB-B2BO.jpg",
+            "price": 0,
+            "selected": false
+        },
+        {
+            "sku": "SB-B2SO",
+            "name": "## NEW ## Logo Bracelet - Antique Silver",
+            "image": "SB-Logo-B2SO.jpg",
+            "price": 98,
+            "selected": false
+        },
+        {
+            "sku": "SB-B2PG-2",
             "name": "Logo Bracelet - Polished Gold",
             "image": "SB-Logo-B2PG.jpg",
+            "price": 98,
+            "selected": false
+        },
+        {
+            "sku": "SB-B2PG",
+            "name": "## NEW ## Logo Bracelet - Polished Gold",
+            "image": "SB-Logo-B2PG 2.jpg",
+            "price": 98,
+            "selected": false
+        },
+        {
+            "sku": "SB-B2S",
+            "name": "## NEW ## Logo Bracelet - Silver",
+            "image": "SB-Logo-B2S.jpg",
             "price": 98,
             "selected": false
         },
