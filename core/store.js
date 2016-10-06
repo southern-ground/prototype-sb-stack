@@ -18,14 +18,6 @@ import _ from '../node_modules/lodash';
 const initialState = {
     inventory: [
         {
-            "sku": "SB-B8ACM",
-            "name": "Alexandria (?)",
-            "image": "SB-Alexandria-B8ACM.jpg",
-            "price": 0,
-            "selected": false,
-            "new": 20161006
-        },
-        {
             "sku": "SB-B8BOC",
             "name": "Alexandria - Antique Brass - Crystal",
             "image": "SB-Alexandria-B8BOC.jpg",
@@ -299,7 +291,7 @@ const initialState = {
             "sku": "SB-B2BO",
             "name": "Logo Bracelet - Antique Brass",
             "image": "SB-Logo-SB-B2BO.jpg",
-            "price": 0,
+            "price": 98,
             "selected": false,
             "new": 20161006
         },
@@ -321,7 +313,7 @@ const initialState = {
         {
             "sku": "SB-B2PG",
             "name": "Logo Bracelet - Polished Gold",
-            "image": "SB-Logo-B2PG 2.jpg",
+            "image": "SB-Logo-B2PG 3.jpg",
             "price": 98,
             "selected": false,
             "new": 20161006
