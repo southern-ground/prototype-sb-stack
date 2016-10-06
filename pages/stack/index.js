@@ -164,6 +164,7 @@ class StackPage extends React.Component {
                         image={item.image}
                         sku={item.sku}
                         stackOrder={item.stackOrder || index}
+                        key={'stackItem-' + index}
                     />
 
                 })}
@@ -179,71 +180,30 @@ class StackPage extends React.Component {
 
                 <div className={s.stackDetails + " " + (this.state.showDetails ? s.stackDetailsVisible : "")}>
 
-                    <div className={s.stackDetailsItem}>
-                        <span className={s.tableHeader}>Name</span>
-                        {this.state.inventory.map((item, index) => {
-                            return (
-                                <div key={'itemName-' + item.sku + '-' + index}>
-                                    {item.name}
-                                </div>
-                            );
-                        })}
-                    </div>
+                    <DetailsItem
+                        name="Name"
+                        sku="SKU"
+                        quanity="QTY"
+                        price="Price"
+                        isHR={true}
+                    />
 
-                    <div className={s.stackDetailsItem}>
-                        <span className={s.tableHeader}>SKU</span>
-                        {this.state.inventory.map((item, index)=> {
-                            return (
-                                <div key={'sku-' + item.sku + '-' + index}>
-                                    {item.sku}
-                                </div>
-                            );
-                        })}
-                    </div>
+                    {this.state.inventory.map((item, index)=>{
+                        return (
+                            <DetailsItem
+                                name={item.name}
+                                sku={item.sku}
+                                quanity={item.quantity || 1}
+                                price={item.price}
+                                key={'itemDetail-' + index}
+                            />
+                        );
+                    })}
 
-                    <div className={s.stackDetailsItem}>
-                        <span className={s.tableHeader}>QTY</span>
-                        {this.state.inventory.map((item, index)=> {
-                            return (
-                                <div key={'quantity-' + item.sku + '-' + index}>
-                                    1
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    <div className={s.stackDetailsItem}>
-                        <span className={s.tableHeader}>Price</span>
-                        {this.state.inventory.map((item, index)=> {
-                            return (
-                                <div key={'price-' + item.sku + '-' + index}>
-                                    <NumericLabel key={'price-' + item.sku + '-' + index + "-PRICE"}
-                                                  params={currencyParams}>
-                                        {item.price}
-                                    </NumericLabel>
-                                </div>
-                            );
-                        })}
-                        <div className={s.invoiceTotal}><NumericLabel key={'totalPrice-' + new Date().getTime()}
-                                                                      params={currencyParams}>{totalCost}</NumericLabel>
-                        </div>
-                    </div>
-
-                    <div className={s.stackDetailsItem}>
-                        <span>&nbsp;</span>
-                        {this.state.inventory.map((item, index) => {
-                            return (
-                                <div key={"remove-item-container" + index}>
-                                    <a href="#"
-                                       className={s.removeInventoryItem}
-                                       data-sku={item.sku}
-                                       onClick={this.removeInventoryItem}
-                                       key={"remove-item-" + index + '-' + item.sku}
-                                    >Remove</a>
-                                </div>
-                            );
-                        })}
-                    </div>
+                    <DetailsItem
+                        price={totalCost}
+                        isTotal={true}
+                    />
 
 
                 </div>

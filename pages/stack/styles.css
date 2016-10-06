@@ -75,62 +75,23 @@
 }
 
 .stackDetails {
-    display: flex;
-    flex-direction: row;
+    display: none;
+    flex-direction: column;
     justify-content: space-around;
     background-color: #937a4c;
     color: white;
-    height: 0;
-    overflow-y: hidden;
-    transition: height 0.75s ease;
-    -webkit-transition: height 0.75s ease;
-    -moz-transition: height 0.75s ease;
-    -o-transition: height 0.75s ease;
 }
 
 .stackDetailsVisible {
-    height: auto;
-    padding: 32px 0 36px 0;
+    display: flex;
+    padding: 32px 20px 36px 20px;
 }
 
 .stackDetailsHead {
     text-transform: uppercase;
-    border-bottom: 1px solid white;
+    border-bottom: 2px solid white;
 }
 
-.removeInventoryItem {
-    width: 17px;
-    height: 17px;
-    text-indent: -9999px;
-    display: inline-block;
-    background: url(../../public/img/item-remove.png) no-repeat;
-}
-
-.tableHeader{
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size:20px;
-    padding: 0 0 20px;
-}
-.invoiceTotal{
-    text-transform: uppercase;
-    font-weight: bold;
-}
-.invoiceTotal:before{
-    content: "Total:";
-    position: absolute;
-    left: -60px;
-}
-.stackDetailsItem{
-    position: relative;
-}
-.stackDetailsItem > span{
-    display: inline-block;
-    padding: 0 0 20px 0;
-}
-.stackDetailsItem > div:not(:last-child){
-    padding: 0 0 20px 0;
-}
 @media screen and (max-width: 1024px) {
 
     .content {
