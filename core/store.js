@@ -305,15 +305,29 @@ const store = createStore((state = initialState, action) => {
             return newState;
 
         case UPDATE_INVENTORY:
+
+            console.log('updateInventory');
+
+            var newStack = action.items;
+            var newInventory = state.inventory;
+
+            newInventory = newInventory.map(item=>{
+                newStack.map(stack=>{
+                    if(stack.sku === item.sku){
+                        item.stackOrder = stack.stackOrder;
+                    }
+                });
+                return item;
+            });
+
+            console.log(newInventory);
+
             return {
                 ...state,
-                stack: _.sortBy(action.items.map(item=> {
-                    if (!item.selected) {
-                        item.stackOrder = -1;
-                    }
-                    return item;
-                }), 'stackOrder')
+                inventory: newInventory,
+                stack: newStack
             };
+
         case REMOVE_ITEM:
 
             var newStack = [];

@@ -28,10 +28,12 @@ class StackPage extends React.Component {
         this.toggleDetails = this.toggleDetails.bind(this);
         this.removeInventoryItem = this.removeInventoryItem.bind(this);
         this.updateProps = this.updateProps.bind(this);
+        this.backClick = this.backClick.bind(this);
         this.state = {
             inventory: store.getState().stack,
             enoughSelected: store.getState().stack.length > 2,
-            showDetails: false
+            showDetails: false,
+            stackOrder: []
         };
     }
 
@@ -64,30 +66,41 @@ class StackPage extends React.Component {
 
     orderUpdate(e) {
 
-        var newOrder = [],
-            newInventory = [];
+        var newOrder = [];
 
         for (var i = 0; i < e.from.children.length; i++) {
             newOrder.push(e.from.children[i].getAttribute('data-sku'));
         }
 
-        newOrder.map((sku, stackOrder)=>{
-            this.state.inventory.map((item,index)=>{
-                if(item.sku === sku){
-                    item.stackOrder = stackOrder;
+        var inventory = this.state.inventory.map(item=>{
+            newOrder.map((newOrderItem, index)=>{
+                if(newOrderItem === item.sku){
+                    item.stackOrder = index;
                 }
+                return newOrderItem;
             });
+            return item;
         });
 
-        newInventory = _.sortBy(this.state.inventory, 'stackOrder');
+        inventory = _.sortBy(inventory, 'stackOrder');
+
+        this.setState({
+            alternateInventory: inventory,
+            stackOrder: newOrder
+        });
+
+
+    }
+
+    backClick() {
+
+        var newInventory = this.state.alternateInventory || this.state.inventory;
 
         store.dispatch({
             type: UPDATE_INVENTORY,
             items: newInventory
         });
-    }
 
-    backClick() {
         history.push({pathname: "/choose"});
     }
 

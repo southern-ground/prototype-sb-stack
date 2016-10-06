@@ -5,3 +5,4 @@ export const SET_INVENTORY = "action-set-inventory";
 export const UPDATE_INVENTORY = "action-update-inventory";
 export const TOGGLE_ITEM = "action-toggle-selected";
 export const REMOVE_ITEM = "action-remove-item";
+export const ORDER_INVENTORY = "action-order-inventory";
