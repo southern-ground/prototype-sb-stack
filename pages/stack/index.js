@@ -18,7 +18,8 @@ import store from '../../core/store';
 import StackItem from '../../components/StackItem/StackItem';
 import Sortable from 'sortablejs';
 import {UPDATE_INVENTORY, REMOVE_ITEM} from "../../core/action-types";
-import NumericLabel from "../../components/NumericLabel";
+import NumericLabel from "../../components/Layout/NumericLabel";
+import DetailsItem from "../../components/Layout/DetailsItem";
 
 class StackPage extends React.Component {
 
