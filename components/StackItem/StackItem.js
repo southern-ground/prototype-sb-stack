@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import styles from './styles.css';
+import s from './styles.css';
 
 class StackItem extends React.Component {
 
@@ -11,18 +11,13 @@ class StackItem extends React.Component {
         super(props);
     }
 
-    componentWillMount(){
-        this.state = this.props.state;
-    }
-
     render() {
         return (
-            <div className={styles.stackItem + " stack-item"} data-sku={this.state.sku}>
-                <img className={styles.stackItemImage} src={ "img/product/" + this.state.image } />
+            <div className={s.stackItem + " stack-item"} data-sku={this.props.sku}>
+                <img className={s.stackItemImage} src={ "img/product/" + this.props.image }/>
             </div>
         );
     }
-
 }
 
 export default StackItem;

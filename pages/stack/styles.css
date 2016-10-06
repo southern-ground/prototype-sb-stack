@@ -55,7 +55,7 @@
 }
 
 .stackContainer > .stackWrapper {
-    width: 200px;
+    width: 300px;
     *zoom: 1;
     display: flex;
     align-content: space-between;
@@ -110,6 +110,7 @@
     text-transform: uppercase;
     font-weight: bold;
     font-size:20px;
+    padding: 0 0 20px;
 }
 .invoiceTotal{
     text-transform: uppercase;
@@ -122,6 +123,13 @@
 }
 .stackDetailsItem{
     position: relative;
+}
+.stackDetailsItem > span{
+    display: inline-block;
+    padding: 0 0 20px 0;
+}
+.stackDetailsItem > div:not(:last-child){
+    padding: 0 0 20px 0;
 }
 @media screen and (max-width: 1024px) {
 

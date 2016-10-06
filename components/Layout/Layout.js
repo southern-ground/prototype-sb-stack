@@ -25,12 +25,10 @@ class Layout extends React.Component {
     };
 
     componentDidMount() {
-        console.log('layout.componentDidMount');
         window.componentHandler.upgradeElement(this.root);
     }
 
     componentWillUnmount() {
-        console.log('layout.componentWillUnmount');
         window.componentHandler.downgradeElements(this.root);
     }
 

@@ -10,6 +10,7 @@
 
 import {createStore} from 'redux';
 import {TOGGLE_ITEM, SET_INVENTORY, UPDATE_INVENTORY, REMOVE_ITEM} from '../core/action-types';
+import _ from '../node_modules/lodash';
 
 // Centralized application state
 // For more information visit http://redux.js.org/
@@ -270,9 +271,10 @@ const store = createStore((state = initialState, action) => {
     // TODO: Add action handlers (aka "reduces")
     switch (action.type) {
         case SET_INVENTORY:
+
             return {...state, inventory: action.items};
+
         case TOGGLE_ITEM:
-            var selectCount = 0;
             var stack = [];
             var newState = {
                 ...state, inventory: state.inventory.map(item=> {
@@ -280,53 +282,70 @@ const store = createStore((state = initialState, action) => {
                         item.selected = !item.selected;
                     }
                     if (item.selected) {
-                        selectCount++;
                         stack.push(item);
                     }
                     return item;
                 }), stack: stack
             };
 
+            newState.inventory.map(item=> {
+                if (item.sku === action.sku) {
+                    item.stackOrder = newState.stack.length - 1;
+                }
+            });
+
+            newState.stack.map(item=> {
+                if (item.sku === action.sku) {
+                    item.stackOrder = newState.stack.length - 1;
+                }
+            });
+
+            newState.stack = _.sortBy(newState.stack, 'stackOrder');
+
             return newState;
 
         case UPDATE_INVENTORY:
             return {
                 ...state,
-                stack: action.items.map(item=> {
+                stack: _.sortBy(action.items.map(item=> {
                     if (!item.selected) {
                         item.stackOrder = -1;
                     }
                     return item;
-                }).sort((a, b)=> {
-
-                    if (a.stackOrder > b.stackOrder) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-
-                })
+                }), 'stackOrder')
             };
         case REMOVE_ITEM:
-            var stack = [],
-                inventory = [],
-                newState = {
-                    ...state,
-                    inventory: state.inventory.map(item=> {
-                        if (item.sku === action.sku) {
-                            console.log('de-selecting an item');
-                            item.selected = false;
-                        }
-                        return item;
-                    }),
-                    stack: state.inventory.map(item=> {
-                        if (item.selected){
-                            return item;
-                        }
-                    })
-                };
-                console.log(newState);
-            return newState;
+
+            var newStack = [];
+            var stackOrderOffset = -1;
+            var newInventory = state.inventory.map((item, index)=> {
+                if (item.sku === action.sku) {
+                    item.selected = false;
+                    if (item.stackOrder && item.stackOrder >= 0) {
+                        stackOrderOffset = item.stackOrder;
+                    }
+                }
+                if (item.selected) {
+                    newStack.push(item);
+                }
+                return item;
+            });
+
+            newStack = _.sortBy(newStack, 'stackOrder');
+
+            if (stackOrderOffset >= 0) {
+                newStack.map((item, index)=> {
+                    if (item.stackOrder >= stackOrderOffset) {
+                        --item.stackOrder;
+                    }
+                });
+            }
+
+            return {
+                ...state,
+                inventory: newInventory,
+                stack: newStack
+            };
         default:
             return state;
     }

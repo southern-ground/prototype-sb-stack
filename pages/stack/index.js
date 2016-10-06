@@ -8,6 +8,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+import _ from '../../node_modules/lodash';
 import React from 'react';
 import Layout from '../../components/Layout';
 import s from './styles.css';
@@ -29,13 +30,7 @@ class StackPage extends React.Component {
         this.updateProps = this.updateProps.bind(this);
         this.state = {
             inventory: store.getState().stack,
-            enoughSelected: (items=> {
-                var count = 0;
-                items.forEach(item=> {
-                    if (item.selected) count++;
-                });
-                return count > 2;
-            })(store.getState().stack),
+            enoughSelected: store.getState().stack.length > 2,
             showDetails: false
         };
     }
@@ -45,10 +40,11 @@ class StackPage extends React.Component {
     }
 
     updateProps() {
+        var newState = store.getState();
         this.setState({
-            inventory: store.getState().stack,
-            enoughSelected: store.getState().stack.length > 2,
-            showDetails: this.state.showDetails
+            ...this.state,
+            inventory: newState.stack,
+            enoughSelected: newState.stack.length > 2
         });
 
     }
@@ -61,26 +57,33 @@ class StackPage extends React.Component {
                 group: "stack",
                 onUpdate: this.orderUpdate
             };
+
             Sortable.create(componentBackingInstance, options);
         }
     };
 
     orderUpdate(e) {
 
+        var newOrder = [],
+            newInventory = [];
+
         for (var i = 0; i < e.from.children.length; i++) {
-            var sku = e.from.children[i].getAttribute('data-sku');
-            this.state.inventory.map(item=> {
-                if (item.sku === sku) {
-                    item.stackOrder = i;
-                }
-            });
+            newOrder.push(e.from.children[i].getAttribute('data-sku'));
         }
 
-        // Update the order in the store:
+        newOrder.map((sku, stackOrder)=>{
+            this.state.inventory.map((item,index)=>{
+                if(item.sku === sku){
+                    item.stackOrder = stackOrder;
+                }
+            });
+        });
+
+        newInventory = _.sortBy(this.state.inventory, 'stackOrder');
 
         store.dispatch({
             type: UPDATE_INVENTORY,
-            items: this.state.inventory
+            items: newInventory
         });
     }
 
@@ -144,8 +147,9 @@ class StackPage extends React.Component {
 
                     return <StackItem
                         className="stack-item"
-                        state={item}
-                        stackOrder={index}
+                        image={item.image}
+                        sku={item.sku}
+                        stackOrder={item.stackOrder || index}
                     />
 
                 })}
