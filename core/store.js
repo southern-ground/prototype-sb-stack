@@ -308,25 +308,42 @@ const store = createStore((state = initialState, action) => {
                 })
             };
         case REMOVE_ITEM:
-            var stack = [],
-                inventory = [],
-                newState = {
-                    ...state,
-                    inventory: state.inventory.map(item=> {
-                        if (item.sku === action.sku) {
-                            console.log('de-selecting an item');
-                            item.selected = false;
-                        }
-                        return item;
-                    }),
-                    stack: state.inventory.map(item=> {
-                        if (item.selected){
-                            return item;
-                        }
-                    })
-                };
-                console.log(newState);
-            return newState;
+            var stackOrderIndex = -1;
+            var newStack = [];
+            var newInventory = state.inventory.map((item,index)=>{
+                if(item.sku === action.sku){
+                    item.selected = false;
+                    if(item.stackOrder && item.stackOrder >= 0){
+                        stackOrderIndex = item.stackOrder;
+                    };
+                }
+                return item;
+            });
+
+            console.log(newInventory);
+
+            if(stackOrderIndex > -1){
+
+                newInventory = state.inventory.map((item,index)=> {
+                    if (item.stackOrder > stackOrderIndex){
+                        item.stackOrder -= 1;
+                    }
+                    return item;
+                });
+
+            }
+
+            newInventory.map((item,index)=>{
+                if(item.selected){
+                    newStack.push(item);
+                }
+            });
+
+            return {
+                ...state,
+                inventory: newInventory,
+                stack: newStack
+            };
         default:
             return state;
     }

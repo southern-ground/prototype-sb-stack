@@ -14,10 +14,10 @@ import s from './styles.css';
 import {title, html} from './index.md';
 import history from '../../core/history';
 import store from '../../core/store';
-import Link from '../../components/Link';
 import StackItem from '../../components/StackItem/StackItem';
 import Sortable from 'sortablejs';
-import {UPDATE_INVENTORY} from "../../core/action-types";
+import {UPDATE_INVENTORY, REMOVE_ITEM} from "../../core/action-types";
+import NumericLabel from "../../components/NumericLabel";
 
 class StackPage extends React.Component {
 
@@ -25,21 +25,27 @@ class StackPage extends React.Component {
         super(props);
         this.orderUpdate = this.orderUpdate.bind(this);
         this.toggleDetails = this.toggleDetails.bind(this);
+        this.removeInventoryItem = this.removeInventoryItem.bind(this);
+        this.updateProps = this.updateProps.bind(this);
     }
 
     componentWillMount() {
         document.title = title;
         this.state = {
             inventory: store.getState().stack,
-            enoughSelected: (items=> {
-                var count = 0;
-                items.forEach(item=> {
-                    if (item.selected) count++;
-                });
-                return count > 2;
-            })(store.getState().stack),
+            enoughSelected: store.getState().stack.length > 2,
             showDetails: false
         };
+        store.subscribe(this.updateProps);
+    }
+
+    updateProps() {
+        this.setState({
+            inventory: store.getState().stack,
+            enoughSelected: store.getState().stack.length > 2,
+            showDetails: this.state.showDetails
+        });
+
     }
 
     sortableContainersDecorator = (componentBackingInstance) => {
@@ -54,18 +60,7 @@ class StackPage extends React.Component {
         }
     };
 
-    renderError() {
-        return <div className={s.errorText}>
-            <h2>Whoops!</h2>
-            <p>
-                Would you look at that ... nothing to see here. <Link to="/choose">Go</Link>
-            </p>
-        </div>
-    }
-
     orderUpdate(e) {
-
-        console.log('StackPage::orderUpdate');
 
         for (var i = 0; i < e.from.children.length; i++) {
             var sku = e.from.children[i].getAttribute('data-sku');
@@ -88,16 +83,42 @@ class StackPage extends React.Component {
         history.push({pathname: "/choose"});
     }
 
+    removeInventoryItem(e) {
+
+        e.preventDefault();
+
+        store.dispatch({
+            type: REMOVE_ITEM,
+            sku: e.target.getAttribute('data-sku')
+        });
+
+    }
+
     toggleDetails() {
         this.setState({
             showDetails: !this.state.showDetails
         })
     }
 
+    renderError() {
+        history.push({pathname: "/choose"});
+        return <div/>
+    }
+
     renderStack() {
-        var totalPrice = 0;
-        this.state.inventory.map((item, index)=> {
-            totalPrice += item.price;
+
+        var totalCost = 0,
+            currencyParams = {
+                justification: 'L',
+                currency: true,
+                currencyIndicator: 'USD',
+                percentage: false,
+                precision: 2,
+                commafy: true
+            };
+
+        this.state.inventory.map((item)=> {
+            totalCost += item.price;
         });
 
         return <div className={s.stackContainer}>
@@ -133,48 +154,49 @@ class StackPage extends React.Component {
                 </button>
                 <div className={s.stackDetails + " " + (this.state.showDetails ? s.stackDetailsVisible : "")}>
 
-                    <div>
-                        <span className={s.stackDetailsHead}>Product</span>
-                        {this.state.inventory.map((item, index)=> {
-                            return (
-                                <div key={"item-name-" + index}>{item.name}</div>
-                            )
+                    <div className={s.stackDetailsItem}>
+                        <span className={s.tableHeader}>Name</span>
+                        {this.state.inventory.map((item, index) => {
+                            return <div key={'itemName-' + item.sku + '-' + index}>{item.name}</div>
                         })}
                     </div>
 
-                    <div>
-                        <span className={s.stackDetailsHead}>Sku</span>
+                    <div className={s.stackDetailsItem}>
+                        <span className={s.tableHeader}>SKU</span>
                         {this.state.inventory.map((item, index)=> {
-                            return (
-                                <div key={"item-sku-" + index}>{item.sku}</div>
-                            );
+                            return <div key={'sku-' + item.sku + '-' + index}>{item.sku}</div>
                         })}
                     </div>
 
-                    <div>
-                        <span className={s.stackDetailsHead}>QTY</span>
+                    <div className={s.stackDetailsItem}>
+                        <span className={s.tableHeader}>QTY</span>
                         {this.state.inventory.map((item, index)=> {
-                            return (
-                                <div key={"item-qty-" + index}>1</div>
-                            );
+                            return <div key={'quantity-' + item.sku + '-' + index}>1</div>
                         })}
                     </div>
 
-                    <div>
-                        <span className={s.stackDetailsHead}>Price</span>
+                    <div className={s.stackDetailsItem}>
+                        <span className={s.tableHeader}>Price</span>
                         {this.state.inventory.map((item, index)=> {
-                            return (
-                                <div key={"item-price-" + index}>{item.price}</div>
-                            );
+                            return <div key={'price-' + item.sku + '-' + index}><NumericLabel
+                                key={'price-' + item.sku + '-' + index + "-PRICE"}
+                                params={currencyParams}>{item.price}</NumericLabel></div>
                         })}
+                        <div className={s.invoiceTotal}><NumericLabel key={'totalPrice'}
+                                                                      params={currencyParams}>{totalCost}</NumericLabel>
+                        </div>
                     </div>
 
-                    <div>
+
+                    <div className={s.stackDetailsItem}>
                         <span>&nbsp;</span>
-                        {this.state.inventory.map((item, index)=> {
-                            return (
-                                <div key={"item-remove-" + index}><a href="#" className={s.removeItemLink}></a></div>
-                            );
+                        {this.state.inventory.map((item, index) => {
+                            return <div><a href="#"
+                                           className={s.removeInventoryItem}
+                                           data-sku={item.sku}
+                                           onClick={this.removeInventoryItem}
+                                           key={"remove-item-" + item.sku + '-' + index}
+                            >Remove</a></div>
                         })}
                     </div>
 

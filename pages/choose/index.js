@@ -37,7 +37,6 @@ class ChoosePage extends React.Component {
     }
 
     updateProps() {
-        console.log('updateProps');
         this.setState({
             inventory: store.getState().inventory,
             stack: store.getState().stack,
@@ -51,8 +50,6 @@ class ChoosePage extends React.Component {
     }
 
     render() {
-
-        console.log(s);
 
         return (
 
