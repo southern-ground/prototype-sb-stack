@@ -1,4 +1,27 @@
-# React Static Boilerplate &nbsp; [![Build Status](http://img.shields.io/travis/kriasoft/react-static-boilerplate/master.svg?style=flat-square)](https://travis-ci.org/kriasoft/react-static-boilerplate) [![To-do](https://img.shields.io/waffle/label/kriasoft/react-static-boilerplate/to-do.svg?style=flat-square)](https://waffle.io/kriasoft/react-static-boilerplate) [![Online Chat](http://img.shields.io/badge/chat_room-%23react--static--boilerplate-blue.svg?style=flat-square)](https://gitter.im/kriasoft/react-static-boilerplate)
+#Stack Widget for ShellyBrown.com
+
+Repo: https://github.com/southern-ground/stack-shellybrown.com
+
+##About
+The Stack widget is written in ReactJS and is hosted in a plain vanilla template within WordPress.
+
+The code leverages the React Static Boilerplate which has it’s caveats. Originally designed to run as the root/index of a site, it has taken some slight modifications to successfully host it within WordPress. The solution is by no means ideal and could use improvement. See details on RSB below.
+
+##Updating the Widget: ```node run```
+
+Download and nom install the repo from the above link. When completed, run the ```node run``` command to host the files locally via WebPack. Develop and/or modify the stack widget within the Widget Repo and watch for changes.
+##Ready to Deploy: ```node run build```
+Run the ```node run build``` command when ready to deploy.
+
+Once completed, do the following for deployment:
+* FTP the ```<repo>/public/dist/``` directory to the root of ShellyBrown.com
+* FTP the contents of the ```<repo>/public/img/``` directory to the ```/img/``` directory on the root of ShellyBrown.com. (NOTE: Do not remove preexisting files from this directory; only augment.)
+* Either via the WordPress editor or via FTP update the script embed in ```ShellyBrown.com/wp-content/themes/newfashion/stack-template.php``` with the newly created tag within the ```<repo>/public/index.html``` file from the stack repo. What you’re looking to update is the value for the hash on main.js. It should look something like this:
+```<script src="/dist/main.b44fcb85047c82252583.js"></script>```
+
+This should be all that is required to update the stack component.
+
+##Info on React Static Boilerplate
 
 > [**React Static Boilerplate**](https://github.com/kriasoft/react-static-boilerplate) (RSB) is an
 > opinionated boilerplate and tooling for creating modern stand-alone web applications (aka
