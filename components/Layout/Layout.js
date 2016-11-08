@@ -41,11 +41,11 @@ class Layout extends React.Component {
         return (
             <div className="fmr-ref-0" ref={node => (this.root = node)}>
                 <div className="fmr-ref-1">
-                    <Header />
+                    {/*<Header />*/}
                     <main className="fmr-ref-2">
                         <div {...this.props}
                              className={cx(s.content, this.props.className)}/>
-                        <Footer />
+                        {/*<Footer />*/}
                     </main>
                 </div>
             </div>

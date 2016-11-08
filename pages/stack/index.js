@@ -102,7 +102,7 @@ class StackPage extends React.Component {
             items: newInventory
         });
 
-        history.push({pathname: "/choose"});
+        history.push({pathname: "/"});
     }
 
     toggleDetails() {
@@ -125,7 +125,7 @@ class StackPage extends React.Component {
     render() {
 
         if (!this.state.enoughSelected) {
-            history.push({pathname: "/choose"});
+            history.push({pathname: "/"});
             return <div/>
         }
 
