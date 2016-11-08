@@ -69,6 +69,17 @@
     margin: 0 0 0 20px;
 }
 
+.loading{
+    display:flex;
+    flex-direction:column;
+}
+
+.inventoryLoadingAnimation{
+    width:50px;
+    height: auto;
+    margin: 0 0 20px;
+}
+
 @media screen and (max-width: 600px) {
     .inventoryContainer{
         flex-direction: column;

@@ -18,6 +18,7 @@ import {title, html} from './index.md';
 import InventoryItem from '../../components/InventoryItem/InventoryItem';
 import store from '../../core/store';
 import history from '../../core/history';
+import {GET_INVENTORY} from '../../core/action-types';
 
 class ChoosePage extends React.Component {
 
@@ -34,6 +35,11 @@ class ChoosePage extends React.Component {
 
     componentDidMount() {
         this.updateProps();
+        if(this.state.inventory.length === 0){
+            store.dispatch({
+                type: GET_INVENTORY
+            })
+        }
     }
 
     updateProps() {
@@ -47,6 +53,28 @@ class ChoosePage extends React.Component {
 
     compareClick() {
         history.push({pathname: "/stack"});
+    }
+
+    renderInventory(){
+        return (
+            <div className={s.inventoryContainer}>
+                {this.state.inventory.map((item, index)=> {
+                    return <InventoryItem
+                        state={item}
+                        key={'inv-' + item.sku + '-' + index}
+                    />
+                })}
+            </div>
+        );
+    }
+
+    renderLoading(){
+        return (
+            <div className={s.inventoryContainer + " " + s.loading}>
+                <img className={s.inventoryLoadingAnimation} src="img/loading.gif" />
+                Loading &#133;
+            </div>
+        );
     }
 
     render() {
@@ -74,14 +102,7 @@ class ChoosePage extends React.Component {
                         Choose at least three
                     </div>
 
-                    <div className={s.inventoryContainer}>
-                        {this.state.inventory.map((item, index)=> {
-                            return <InventoryItem
-                                state={item}
-                                key={'inv-' + item.sku + '-' + index}
-                            />
-                        })}
-                    </div>
+                    { this.state.inventory.length > 0 ? this.renderInventory() : this.renderLoading() }
 
                 </div>
 
