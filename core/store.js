@@ -127,17 +127,15 @@ const store = createStore((state = initialState, action) => {
 
             action.data.data.map(function (item) {
 
-                var match = _.find(INVENTORY_IMAGES, (inventoryItem)=> {
+                let match = _.find(INVENTORY_IMAGES, (inventoryItem)=> {
                     return inventoryItem.sku === item.sku;
                 });
 
                 if (match) {
 
                     // Found a match within the Inventory Images list; merge 'em.
+                    newInventory.push(Object.assign({}, item, match ));
 
-                    Object.assign(match, item);
-
-                    newInventory.push(match);
                 }
 
             });
