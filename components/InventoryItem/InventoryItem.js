@@ -15,14 +15,9 @@ class InventoryItem extends React.Component {
         this.tileClicked = this.tileClicked.bind(this);
     }
 
-    componentWillMount(){
-        this.state = this.props.state;
-    }
-
     tileClicked(e){
-        // console.log(this.refs('checkBox'));
         e.stopPropagation();
-        store.dispatch({type: TOGGLE_ITEM, sku: this.state.sku});
+        store.dispatch({type: TOGGLE_ITEM, sku: this.props.sku});
     }
 
     toggleSelected(e) {
@@ -32,20 +27,20 @@ class InventoryItem extends React.Component {
     render() {
 
         return (
-            <div className={styles.inventoryItem + (this.state.new ? " " + styles.newItem : "")} onClick={this.tileClicked}>
+            <div className={styles.inventoryItem} onClick={this.tileClicked}>
                 <div className={styles.inventoryItemDetails}>
-                    <img className={styles.inventoryImage} src={"img/product/" + this.state.image} />
+                    <img className={styles.inventoryImage} src={"img/product/" + this.props.image} />
                     <div className={styles.details}>
                         <input type="checkBox"
-                               id={this.state.sku}
+                               id={this.props.sku}
                                onChange={this.toggleSelected}
-                               value={this.state.sku}
-                               checked={this.state.selected}
+                               value={this.props.sku}
+                               checked={this.props.selected}
                                ref="checkBox"
                         />
-                        <label htmlFor={this.state.sku}></label>
-                        <p className={this.state.selected ? "" : styles.deselected}>
-                            {this.state.name}
+                        <label htmlFor={this.props.sku}></label>
+                        <p className={this.props.selected ? "" : styles.deselected}>
+                            {this.props.name}
                         </p>
                     </div>
                     <hr className={styles.separator} />
