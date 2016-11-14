@@ -78,6 +78,11 @@
     letter-spacing: 2px;
 }
 
+.detailsLoadingAnimation{
+    height: 18px;
+    width: auto;
+}
+
 @media screen and (max-width: 1024px) {
 
 
