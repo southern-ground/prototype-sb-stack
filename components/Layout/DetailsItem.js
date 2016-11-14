@@ -50,12 +50,19 @@ class DetailsItem extends React.Component {
             );
         } else {
 
-            return (<
-                    NumericLabel
-                    params={currencyParams}>
-                    {this.props.price}
-                </NumericLabel>
-            );
+            if(this.props.price === 0){
+                return <img className={s.detailsLoadingAnimation} src="img/loading.gif" />;
+            }else{
+
+                return (<
+                        NumericLabel
+                        params={currencyParams}>
+                        {this.props.price}
+                    </NumericLabel>
+                );
+
+            }
+
         }
 
     }
