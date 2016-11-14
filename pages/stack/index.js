@@ -17,7 +17,7 @@ import history from '../../core/history';
 import store from '../../core/store';
 import StackItem from '../../components/StackItem/StackItem';
 import Sortable from 'sortablejs';
-import {UPDATE_INVENTORY, REMOVE_ITEM} from "../../core/action-types";
+import {UPDATE_INVENTORY, REMOVE_ITEM, GET_PRICE, GET_PRICE_RESPONSE} from "../../core/action-types";
 import NumericLabel from "../../components/Layout/NumericLabel";
 import DetailsItem from "../../components/Layout/DetailsItem";
 
@@ -31,15 +31,23 @@ class StackPage extends React.Component {
         this.updateProps = this.updateProps.bind(this);
         this.backClick = this.backClick.bind(this);
         this.state = {
-            inventory: store.getState().stack,
-            enoughSelected: store.getState().stack.length > 2,
+            inventory: [],
+            enoughSelected: true,
             showDetails: false,
             stackOrder: []
         };
     }
 
+    componentWillMount(){
+        this.unsubscribeFunction = store.subscribe(this.updateProps);
+    }
+
     componentDidMount() {
-        store.subscribe(this.updateProps);
+        this.updateProps();
+    }
+
+    componentWillUnmount(){
+        this.unsubscribeFunction();
     }
 
     updateProps() {
@@ -58,7 +66,10 @@ class StackPage extends React.Component {
             let options = {
                 draggable: ".stack-item", // Restricts sort start click/touch to the specified element
                 group: "stack",
-                onUpdate: this.orderUpdate
+                onUpdate: this.orderUpdate,
+                pull: (from,to)=>{
+                    console.log('pull', from, to);
+                }
             };
 
             Sortable.create(componentBackingInstance, options);
@@ -106,9 +117,14 @@ class StackPage extends React.Component {
     }
 
     toggleDetails() {
+        if(!this.state.showDetails){
+            store.dispatch({
+                type: GET_PRICE
+            });
+        }
         this.setState({
             showDetails: !this.state.showDetails
-        })
+        });
     }
 
     removeInventoryItem(e) {

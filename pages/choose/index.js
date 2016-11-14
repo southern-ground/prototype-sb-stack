@@ -23,23 +23,36 @@ import {GET_INVENTORY} from '../../core/action-types';
 class ChoosePage extends React.Component {
 
     constructor(props) {
+
         super(props);
-        this.state = {inventory: [], selectCount: 0, enableButton: false};
+
         this.updateProps = this.updateProps.bind(this);
+
+        this.state = {
+            inventory: store.getState().inventory,
+            stack: store.getState().stack,
+            selectCount: store.getState().stack.length,
+            enableButton: store.getState().stack.length > 2
+        };
+
     }
 
     componentWillMount() {
-        store.subscribe(this.updateProps);
-        document.title = title;
-    }
 
-    componentDidMount() {
-        this.updateProps();
+        this.unsubscribeFunciton = store.subscribe(this.updateProps);
+
+        document.title = title;
+
         if(this.state.inventory.length === 0){
             store.dispatch({
                 type: GET_INVENTORY
             })
         }
+
+    }
+
+    componentWillUnmount(){
+        this.unsubscribeFunciton();
     }
 
     updateProps() {
@@ -60,7 +73,11 @@ class ChoosePage extends React.Component {
             <div className={s.inventoryContainer}>
                 {this.state.inventory.map((item, index)=> {
                     return <InventoryItem
-                        state={item}
+                        sku={item.sku}
+                        image={item.image}
+                        selected={item.selected}
+                        name={item.name}
+                        price={item.price}
                         key={'inv-' + item.sku + '-' + index}
                     />
                 })}
