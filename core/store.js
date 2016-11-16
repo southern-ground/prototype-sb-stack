@@ -17,7 +17,7 @@ import {
     GET_INVENTORY_RESPONSE, GET_INVENTORY_ERROR, GET_INVENTORY,
     GET_PRICE, GET_PRICE_RESPONSE
 } from '../core/action-types';
-import { INVENTORY_IMAGES } from '../core/constants';
+import { INVENTORY_IMAGES, SALE_PERCENTAGE } from '../core/constants';
 import _ from '../node_modules/lodash';
 import request from 'superagent';
 
@@ -39,32 +39,37 @@ const store = createStore((state = initialState, action) => {
 
                 if (item.price == 0) {
 
+                    // Is the item currently on sale?
+                    var onSale = _.find(item.category_ids, item=>{
+                        return item==="74";
+                    });
+
                     request
-                        .get('http://shellybrown.com/api.php?action=msrp&productID=' + item.product_id)
-                        .end((err, res) => {
+                            .get('http://shellybrown.com/api.php?action=msrp&productID=' + item.product_id)
+                            .end((err, res) => {
 
-                            if (err) {
-                                /*
-                                 in case there is any error, dispatch an action containing the error
-                                 */
-                                console.warn('Price Retrieval Error:');
-                                console.log(err);
+                                if (err) {
+                                    /*
+                                     in case there is any error, dispatch an action containing the error
+                                     */
+                                    console.warn('Price Retrieval Error:');
+                                    console.log(err);
 
-                                store.dispatch({type: GET_INVENTORY_ERROR, err});
+                                    store.dispatch({type: GET_INVENTORY_ERROR, err});
 
-                            } else {
+                                } else {
 
-                                const data = JSON.parse(res.text);
+                                    const data = JSON.parse(res.text);
 
-                                /*
-                                 Once data is received, dispatch an action telling the application 
-                                 that data was received successfully, along with the parsed data 
-                                 */
+                                    /*
+                                     Once data is received, dispatch an action telling the application 
+                                     that data was received successfully, along with the parsed data 
+                                     */
 
-                                store.dispatch({type: GET_PRICE_RESPONSE, data});
-                            }
+                                    store.dispatch({type: GET_PRICE_RESPONSE, data});
+                                }
 
-                        });
+                            });
 
                 }
             });
@@ -75,6 +80,15 @@ const store = createStore((state = initialState, action) => {
 
             var updateID = action.data.data.product_id,
                 updatePrice = Number(action.data.data.price);
+
+
+            if(action.data.data.on_sale == 1){
+                updatePrice -= (updatePrice * (SALE_PERCENTAGE / 100));
+                // console.log('product id:',updateID, 'sale price:',updatePrice);
+            }else{
+                // console.log('product id:',updateID, 'msrp:', updatePrice);
+            }
+
 
             var newInventory = state.inventory.map((item)=> {
                 if (item.product_id === updateID) {
@@ -123,22 +137,65 @@ const store = createStore((state = initialState, action) => {
 
         case GET_INVENTORY_RESPONSE:
 
-            var newInventory = [];
+            var newInventory = [],
+                inventoryMissingImages = [],
+                existingInventory = action.data.data,
+                itemFound = false,
+                i;
 
-            action.data.data.map(function (item) {
+            // Cycle over all the products we have images for looking for matches:
 
-                let match = _.find(INVENTORY_IMAGES, (inventoryItem)=> {
-                    return inventoryItem.sku === item.sku;
-                });
+            existingInventory.map(item=>{
 
-                if (match) {
+                itemFound = false;
 
-                    // Found a match within the Inventory Images list; merge 'em.
-                    newInventory.push(Object.assign({}, item, match ));
+                for(i = 0; i < INVENTORY_IMAGES.length; i++){
 
+                    if(INVENTORY_IMAGES[i].sku == item.sku){
+                        itemFound = true;
+                        break;
+                    }
+                }
+
+                if(itemFound){
+                    newInventory.push(Object.assign({}, item, INVENTORY_IMAGES[i]));
+                }else{
+                    inventoryMissingImages.push(Object.assign({}, item, INVENTORY_IMAGES[i]));
                 }
 
             });
+
+            console.log('Existing real inventory');
+            console.log(existingInventory);
+
+            _.each(inventoryMissingImages, (item)=>{
+                console.warn('Not Found:', item.product_id, item.sku, item.name);
+            });
+
+            /*
+            INVENTORY_IMAGES.map(item=>{
+
+                itemFound = false;
+
+                for(i = 0; i < existingInventory.length; i++){
+                    if(existingInventory[i].sku == item.sku){
+                        itemFound = true;
+                        break;
+                    }
+                }
+
+                if(itemFound) {
+                    newInventory.push(Object.assign({}, existingInventory[i], item));
+                }else{
+                    inventoryMissingImages.push(Object.assign({}, existingInventory[i], item));
+                }
+
+            });
+
+            _.each(inventoryMissingImages, (item)=>{
+                console.warn('Not Found:', item.product_id, item.sku, item.name);
+            });
+            */
 
             return {...state, inventory: newInventory, stack: []};
 
@@ -150,7 +207,8 @@ const store = createStore((state = initialState, action) => {
 
             var stack = [],
                 newState = {
-                    ...state, inventory: state.inventory.map(item=> {
+                    ...state,
+                    inventory: state.inventory.map(item=> {
                         if (item.sku === action.sku) {
                             item.selected = !item.selected;
                         }
@@ -158,7 +216,8 @@ const store = createStore((state = initialState, action) => {
                             stack.push(item);
                         }
                         return item;
-                    }), stack: stack
+                    }),
+                    stack: stack
                 };
 
             newState.inventory.map(item=> {
@@ -174,6 +233,8 @@ const store = createStore((state = initialState, action) => {
             });
 
             newState.stack = _.sortBy(newState.stack, 'stackOrder');
+
+            newState.enoughSelected = newState.stack.length >= 2;
 
             return newState;
 
@@ -229,7 +290,8 @@ const store = createStore((state = initialState, action) => {
             return {
                 ...state,
                 inventory: newInventory,
-                stack: newStack
+                stack: newStack,
+                enoughSelected: newStack.length >= 2
             };
 
         default:
