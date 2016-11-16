@@ -55,7 +55,7 @@ class StackPage extends React.Component {
         this.setState({
             ...this.state,
             inventory: newState.stack,
-            enoughSelected: newState.stack.length > 2
+            enoughSelected: newState.enoughSelected
         });
 
     }
