@@ -1,9 +1,10 @@
 /**
  * Created by fst on 11/14/16.
  */
+export const SALE_PERCENTAGE = 20;
 export const INVENTORY_IMAGES = [
     {
-        "sku": "SB-B8BOC",
+        "sku": "SB-B8BOCAB",
         "name": "Alexandria - Antique Brass - Crystal",
         "image": "SB-Alexandria-B8BOC.jpg",
         "price": 0,
