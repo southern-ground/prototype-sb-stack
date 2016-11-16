@@ -32,7 +32,7 @@ class ChoosePage extends React.Component {
             inventory: store.getState().inventory,
             stack: store.getState().stack,
             selectCount: store.getState().stack.length,
-            enableButton: store.getState().stack.length > 2
+            enableButton: store.getState().enoughSelected
         };
 
     }
@@ -56,11 +56,12 @@ class ChoosePage extends React.Component {
     }
 
     updateProps() {
+        var _state = store.getState();
         this.setState({
-            inventory: store.getState().inventory,
-            stack: store.getState().stack,
-            selectCount: store.getState().stack.length,
-            enableButton: store.getState().stack.length > 2
+            inventory: _state.inventory,
+            stack: _state.stack,
+            selectCount: _state.stack.length,
+            enableButton: _state.enoughSelected
         });
     }
 
@@ -70,17 +71,25 @@ class ChoosePage extends React.Component {
 
     renderInventory(){
         return (
-            <div className={s.inventoryContainer}>
-                {this.state.inventory.map((item, index)=> {
-                    return <InventoryItem
-                        sku={item.sku}
-                        image={item.image}
-                        selected={item.selected}
-                        name={item.name}
-                        price={item.price}
-                        key={'inv-' + item.sku + '-' + index}
-                    />
-                })}
+            <div>
+
+                <div className={s.instructions}>
+                    Choose at least two
+                </div>
+
+                <div className={s.inventoryContainer}>
+                    {this.state.inventory.map((item, index)=> {
+                        return <InventoryItem
+                            sku={item.sku}
+                            image={item.image}
+                            selected={item.selected}
+                            name={item.name}
+                            price={item.price}
+                            key={'inv-' + item.sku + '-' + index}
+                        />
+                    })}
+                </div>
+
             </div>
         );
     }
@@ -114,10 +123,6 @@ class ChoosePage extends React.Component {
                 </div>
 
                 <div className={s.sectionBottom}>
-
-                    <div className={s.instructions}>
-                        Choose at least three
-                    </div>
 
                     { this.state.inventory.length > 0 ? this.renderInventory() : this.renderLoading() }
 
