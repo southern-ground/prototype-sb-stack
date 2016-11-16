@@ -78,26 +78,24 @@ const store = createStore((state = initialState, action) => {
 
         case GET_PRICE_RESPONSE:
 
-            var updateID = action.data.data.product_id,
-                updatePrice = Number(action.data.data.price);
+            var data = action.data.data,
+                updateID = data.product_id,
+                updatePrice = Number(data.price),
+                newInventory,
+                newStack;
 
-
-            if(action.data.data.on_sale == 1){
+            if(data.on_sale == 1){
                 updatePrice -= (updatePrice * (SALE_PERCENTAGE / 100));
-                // console.log('product id:',updateID, 'sale price:',updatePrice);
-            }else{
-                // console.log('product id:',updateID, 'msrp:', updatePrice);
             }
 
-
-            var newInventory = state.inventory.map((item)=> {
+            newInventory = state.inventory.map((item)=> {
                 if (item.product_id === updateID) {
                     item.price = updatePrice;
                 }
                 return item;
             });
 
-            var newStack = state.stack.map((item)=> {
+            newStack = state.stack.map((item)=> {
                 if (item.product_id === updateID) {
                     item.price = updatePrice;
                 }
@@ -165,37 +163,9 @@ const store = createStore((state = initialState, action) => {
 
             });
 
-            console.log('Existing real inventory');
-            console.log(existingInventory);
-
             _.each(inventoryMissingImages, (item)=>{
-                console.warn('Not Found:', item.product_id, item.sku, item.name);
+                console.warn('Image missing for item #' + item.product_id, item.sku, item.name);
             });
-
-            /*
-            INVENTORY_IMAGES.map(item=>{
-
-                itemFound = false;
-
-                for(i = 0; i < existingInventory.length; i++){
-                    if(existingInventory[i].sku == item.sku){
-                        itemFound = true;
-                        break;
-                    }
-                }
-
-                if(itemFound) {
-                    newInventory.push(Object.assign({}, existingInventory[i], item));
-                }else{
-                    inventoryMissingImages.push(Object.assign({}, existingInventory[i], item));
-                }
-
-            });
-
-            _.each(inventoryMissingImages, (item)=>{
-                console.warn('Not Found:', item.product_id, item.sku, item.name);
-            });
-            */
 
             return {...state, inventory: newInventory, stack: []};
 
