@@ -32,7 +32,7 @@ export const INVENTORY_IMAGES = [
         "selected": false
     },
     {
-        "sku": "SB-B8SOC",
+        "sku": "SB-B8BOC",
         "name": "Alexandria - Antique Silver - Crystal",
         "image": "SB-Alexandria-B8SOC.jpg",
         "price": 0,
@@ -333,21 +333,21 @@ export const INVENTORY_IMAGES = [
         "selected": false
     },
     {
-        "sku": "SB-B1OBOWOM",
+        "sku": "SB-B10BOWOM",
         "name": "Protector - Antique Brass - Mystique",
         "image": "SB-Protector-B1OBOWOM.jpg",
         "price": 0,
         "selected": false
     },
     {
-        "sku": "SB-B1OSOCO",
+        "sku": "SB-B10SOCO",
         "name": "Protector - Antique Silver - Mermaid",
         "image": "SB-Protector-B1OSOCO.jpg",
         "price": 0,
         "selected": false
     },
     {
-        "sku": "SB-B1SORWO",
+        "sku": "SB-B10SORWO",
         "name": "Protector - Antique Brass - Rose Water Opal",
         "image": "SB-Protector-B1SORWO.jpg",
         "price": 0,
