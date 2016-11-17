@@ -172,6 +172,13 @@ export const INVENTORY_IMAGES = [
         "selected": false
     },
     {
+        "sku": "SB-B7HT",
+        "name": "Jessica - Hematite - Topaz",
+        "image": "SB-Jessica-B7HT.jpg",
+        "price": 0,
+        "selected": false
+    },
+    {
         "sku": "SB-B7SOC",
         "name": "Jessica - Antique Silver - Crystal",
         "image": "SB-Jessica-B7SOC.jpg",
