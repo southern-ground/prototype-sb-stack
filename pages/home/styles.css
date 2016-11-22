@@ -8,9 +8,12 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+.title{
+    position: relative;
+}
+
 .sectionColumn{
     position: relative;
-    min-height: 110px;
     width: 100%;
     max-width: 1024px;
     margin: 0 auto;
@@ -18,7 +21,31 @@
 
 .sectionTop{
     position: relative;
-    min-height: 110px;
+}
+
+.stackControls{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-end;
+    margin: 0 0 24px;
+    transition: all 1s ease-in-out;
+    z-index:999;
+}
+
+.fixedControls{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    justify-content:center;
+    padding: 20px 0;
+    background: rgba(255,255,255,0.5);
+}
+
+@media screen and (max-width: 1024px) {
+    .stackControls{
+        justify-content:center;
+    }
 }
 
 .viewButton{
@@ -29,9 +56,9 @@
     margin: 0;
     padding: 3px 20px;
     font-size:26px;
-    position: absolute;
-    right: 0;
-    top: 28px;
+}
+.viewButton:not(last-of-type){
+    margin-right: 20px;
 }
 .buttonDisabled{
     opacity: 0.6;
