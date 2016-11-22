@@ -29,7 +29,7 @@ class InventoryItem extends React.Component {
         return (
             <div className={styles.inventoryItem} onClick={this.tileClicked}>
                 <div className={styles.inventoryItemDetails}>
-                    <img className={styles.inventoryImage} src={"img/product/" + this.props.image} />
+                    <img className={styles.inventoryImage} src={"/img/product/" + this.props.image} />
                     <div className={styles.details}>
                         <input type="checkBox"
                                id={this.props.sku}
