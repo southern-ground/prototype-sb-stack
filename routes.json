@@ -1,16 +1,18 @@
 [
   {
     "path": "/",
-    "page": "./pages/choose",
-    "chunk": "main"
-  },
-  {
-    "path": "/error",
-    "page": "./pages/error",
-    "chunk": "main"
+    "page": "./pages/home"
   },
   {
     "path": "/stack",
-    "page": "./pages/stack"
+    "page": "./pages/home"
+  },
+  {
+    "path": "/error",
+    "page": "./pages/error"
+  },
+  {
+    "path": "/arrange",
+    "page": "./pages/arrange"
   }
 ]
