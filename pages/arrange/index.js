@@ -17,24 +17,38 @@ import history from '../../core/history';
 import store from '../../core/store';
 import StackItem from '../../components/StackItem/StackItem';
 import Sortable from 'sortablejs';
-import {UPDATE_INVENTORY, REMOVE_ITEM, GET_PRICE, GET_PRICE_RESPONSE} from "../../core/action-types";
+import {
+    UPDATE_INVENTORY,
+    REMOVE_ITEM,
+    GET_PRICE,
+    GET_PRICE_RESPONSE,
+    ADD_TO_CART
+} from "../../core/action-types";
 import NumericLabel from "../../components/Layout/NumericLabel";
 import DetailsItem from "../../components/Layout/DetailsItem";
 
 class StackPage extends React.Component {
 
     constructor(props) {
+
         super(props);
+
         this.orderUpdate = this.orderUpdate.bind(this);
         this.toggleDetails = this.toggleDetails.bind(this);
         this.removeInventoryItem = this.removeInventoryItem.bind(this);
         this.updateProps = this.updateProps.bind(this);
         this.backClick = this.backClick.bind(this);
+        this.addToCart = this.addToCart.bind(this);
+        this.checkOut = this.checkOut.bind(this);
+
         this.state = {
             inventory: [],
             enoughSelected: true,
             showDetails: false,
-            stackOrder: []
+            stackOrder: [],
+            processingStoreRequest: false,
+            successfullyAddedToCart: false,
+            urlCart: ''
         };
     }
 
@@ -51,11 +65,16 @@ class StackPage extends React.Component {
     }
 
     updateProps() {
+
         var newState = store.getState();
+
         this.setState({
             ...this.state,
             inventory: newState.stack,
-            enoughSelected: newState.enoughSelected
+            enoughSelected: newState.enoughSelected,
+            processingStoreRequest: newState.processingStoreRequest || false,
+            successfullyAddedToCart: newState.urlCart ? true : false,
+            urlCart: newState.urlCart || ''
         });
 
     }
@@ -114,6 +133,20 @@ class StackPage extends React.Component {
         });
 
         history.push({pathname: "/"});
+    }
+
+    addToCart(){
+        console.log('stack::addToCart');
+        store.dispatch(
+            {
+                type: ADD_TO_CART
+            }
+        );
+    }
+
+    checkOut(){
+        console.log('stack::checkOut');
+        window.location = this.state.urlCart;
     }
 
     toggleDetails() {
@@ -223,9 +256,23 @@ class StackPage extends React.Component {
 
 
                 </div>
-
             </div>
 
+            <div className="wraper">
+
+                <button
+                    className={s.stackAddToCartButton + " " + s.button}
+                    disabled={this.state.processingStoreRequest}
+                    onClick={this.addToCart}>Add to Cart
+                </button>
+
+                <button
+                    className={s.stackCheckOutButton + " " + s.button}
+                    disabled={!this.state.successfullyAddedToCart}
+                    onClick={this.checkOut}>CheckOut
+                </button>
+
+            </div>
 
         </Layout>;
     }

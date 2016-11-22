@@ -30,6 +30,10 @@
     outline: 0;
 }
 
+.button:disabled{
+    opacity: 0.6;
+}
+
 .buttonActive {
     border: 2px solid black;
     background: white;
@@ -72,6 +76,10 @@
 
 .stackDetailsButton {
     margin: 0 0 20px 0;
+}
+
+.stackAddToCartButton{
+    margin: 0 20px 0 0;
 }
 
 .stackDetails {
