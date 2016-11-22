@@ -197,8 +197,9 @@ class StackPage extends React.Component {
 
             <div className={s.stackTop}>
                 <h2>Your Stack</h2>
-                <button className={s.button + " " + s.backButton} onClick={this.backClick}>Back</button>
             </div>
+
+            <button className={s.button + " " + s.backButton} onClick={this.backClick}>Back</button>
 
             <div className={s.instructions}>
                 Drag to Rearrange
@@ -258,18 +259,12 @@ class StackPage extends React.Component {
                 </div>
             </div>
 
-            <div className="wraper">
+            <div className={s.cartNavigation}>
 
                 <button
                     className={s.stackAddToCartButton + " " + s.button}
                     disabled={this.state.processingStoreRequest}
-                    onClick={this.addToCart}>Add to Cart
-                </button>
-
-                <button
-                    className={s.stackCheckOutButton + " " + s.button}
-                    disabled={!this.state.successfullyAddedToCart}
-                    onClick={this.checkOut}>CheckOut
+                    onClick={this.addToCart}>Buy Now
                 </button>
 
             </div>
