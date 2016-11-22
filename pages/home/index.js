@@ -12,13 +12,14 @@
  */
 
 import React from 'react';
+import _ from 'lodash';
 import Layout from '../../components/Layout';
 import s from './styles.css';
 import {title, html} from './index.md';
 import InventoryItem from '../../components/InventoryItem/InventoryItem';
 import store from '../../core/store';
 import history from '../../core/history';
-import {GET_INVENTORY} from '../../core/action-types';
+import {GET_INVENTORY, CLEAR_ALL_ITEMS} from '../../core/action-types';
 
 class ChoosePage extends React.Component {
 
@@ -27,6 +28,7 @@ class ChoosePage extends React.Component {
         super(props);
 
         this.updateProps = this.updateProps.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
 
         this.state = {
             inventory: store.getState().inventory,
@@ -51,8 +53,27 @@ class ChoosePage extends React.Component {
 
     }
 
+    componentDidMount() {
+        document.addEventListener('scroll',  _.debounce(this.handleScroll, 500));
+    }
+
     componentWillUnmount(){
         this.unsubscribeFunciton();
+        document.removeEventListener('scroll', _.debounce(this.handleScroll, 500));
+    }
+
+    handleScroll(){
+
+        var el = document.getElementById('StackControls'),
+            container = document.getElementById('Stack'),
+            viewportOffset = container.getBoundingClientRect();
+
+        if(viewportOffset.top < -100 ){
+            el.classList.add(s.fixedControls);
+        }else{
+            el.classList.remove(s.fixedControls);
+        }
+
     }
 
     updateProps() {
@@ -65,13 +86,35 @@ class ChoosePage extends React.Component {
         });
     }
 
+    clearAllClick(){
+        store.dispatch({type:CLEAR_ALL_ITEMS});
+    }
+
     compareClick() {
-        history.push({pathname: "/stack"});
+        history.push({pathname: "/arrange"});
     }
 
     renderInventory(){
         return (
             <div>
+
+                <div id="StackControls" className={s.stackControls}>
+
+                    <button
+                        disabled={!this.state.enableButton}
+                        onClick={this.compareClick}
+                        className={s.viewButton + " " + (this.state.enableButton ? "" : s.buttonDisabled)}>
+                        View
+                    </button>
+
+                    <button
+                        disabled={!this.state.enableButton}
+                        onClick={this.clearAllClick}
+                        className={s.viewButton + " " + (this.state.stack.length > 0 ? "" : s.buttonDisabled)}>
+                        Clear All
+                    </button>
+
+                </div>
 
                 <div className={s.instructions}>
                     Choose at least two
@@ -97,8 +140,9 @@ class ChoosePage extends React.Component {
     renderLoading(){
         return (
             <div className={s.inventoryContainer + " " + s.loading}>
-                <img className={s.inventoryLoadingAnimation} src="img/loading.gif" />
-                Loading &#133;
+                <h3>Please Wait</h3>
+                <img className={s.inventoryLoadingAnimation} src="/img/loading.gif" />
+                <p>We're fetching all available products.</p>
             </div>
         );
     }
@@ -107,18 +151,11 @@ class ChoosePage extends React.Component {
 
         return (
 
-            <Layout>
+            <Layout id="Stack">
 
                 <div className={s.sectionTop}>
 
                     <h2 className={s.title}>Build Your Stack</h2>
-
-                    <button
-                        disabled={!this.state.enableButton}
-                        onClick={this.compareClick}
-                        className={s.viewButton + " " + (this.state.enableButton ? "" : s.buttonDisabled)}>
-                        View
-                    </button>
 
                 </div>
 
