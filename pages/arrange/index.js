@@ -132,7 +132,7 @@ class StackPage extends React.Component {
             items: newInventory
         });
 
-        history.push({pathname: "/"});
+        history.push({pathname: "/stack"});
     }
 
     addToCart(){
@@ -174,7 +174,7 @@ class StackPage extends React.Component {
     render() {
 
         if (!this.state.enoughSelected) {
-            history.push({pathname: "/"});
+            history.push({pathname: "/stack"});
             return <div/>
         }
 
