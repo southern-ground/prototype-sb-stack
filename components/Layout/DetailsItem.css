@@ -18,16 +18,19 @@
     justify-content: space-between;
     text-transform: uppercase;
 }
+
 .detailRow:not(:last-child){
     padding: 0 0 5px 0;
     margin: 0 0 5px 0;
     border-bottom: 1px solid rgba(255,255,255,0.4);
 }
+
 .detailRowHR{
     border-bottom: 2px solid white !important;
     padding: 0 0 10px 0;
     margin: 0 0 10px 0;
 }
+
 .detailRow > div:nth-child(1){
     width: 45%;
 }
@@ -53,7 +56,9 @@
 .detailPrice{
     position: relative;
 }
+
 .detailRemove{}
+
 .detailRemoveLink{
     width: 17px;
     height: 17px;
@@ -61,6 +66,7 @@
     display: inline-block;
     background: url(../../public/img/item-remove.png) no-repeat;
 }
+
 .detailHR{
     font-size:1.43rem;
     text-transform: uppercase;
@@ -84,6 +90,11 @@
 }
 
 @media screen and (max-width: 1024px) {
+
+    .detailHR{
+        font-size:1rem;
+    }
+
     .detailRow{
         zoom: 0.8;
     }
