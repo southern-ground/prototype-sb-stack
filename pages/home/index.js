@@ -89,7 +89,7 @@ class ChoosePage extends React.Component {
             }else{
                 el.classList.add(s.hidden);
             }
-            
+
         }catch(e){
             // Nothing; it's a short-coming of the mount/dismount process
             // and the sortable JS library.
