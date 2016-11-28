@@ -54,7 +54,21 @@ class ChoosePage extends React.Component {
     }
 
     componentDidMount() {
+
+        var findPos = (obj)=>{
+            var curtop = 0;
+            if (obj.offsetParent) {
+                do {
+                    curtop += obj.offsetTop;
+                } while (obj = obj.offsetParent);
+                return [curtop];
+            }
+        };
+
+        window.scroll(0,findPos(document.getElementById("container")));
+
         document.addEventListener('scroll',  _.debounce(this.handleScroll, 500));
+
     }
 
     componentWillUnmount(){
@@ -64,14 +78,21 @@ class ChoosePage extends React.Component {
 
     handleScroll(){
 
-        var el = document.getElementById('ScrolledStackControls'),
-            container = document.getElementById('Stack'),
-            viewportOffset = container.getBoundingClientRect();
+        try{
 
-        if(viewportOffset.top < -100 ){
-            el.classList.remove(s.hidden);
-        }else{
-            el.classList.add(s.hidden);
+            var el = document.getElementById('ScrolledStackControls'),
+                container = document.getElementById('Stack'),
+                viewportOffset = container.getBoundingClientRect();
+
+            if(viewportOffset.top < -100 ){
+                el.classList.remove(s.hidden);
+            }else{
+                el.classList.add(s.hidden);
+            }
+            
+        }catch(e){
+            // Nothing; it's a short-coming of the mount/dismount process
+            // and the sortable JS library.
         }
 
     }

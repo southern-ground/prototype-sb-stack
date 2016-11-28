@@ -57,7 +57,21 @@ class StackPage extends React.Component {
     }
 
     componentDidMount() {
+
         this.updateProps();
+
+        var findPos = (obj)=>{
+            var curtop = 0;
+            if (obj.offsetParent) {
+                do {
+                    curtop += obj.offsetTop;
+                } while (obj = obj.offsetParent);
+                return [curtop];
+            }
+        };
+
+        window.scroll(0,findPos(document.getElementById("container")));
+
     }
 
     componentWillUnmount(){
