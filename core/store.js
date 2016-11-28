@@ -19,7 +19,7 @@ import {
     ADD_TO_CART, ADD_TO_CART_RESPONSE, ADD_TO_CART_ERROR,
     CLEAR_ALL_ITEMS
 } from '../core/action-types';
-import {INVENTORY_IMAGES, SALE_PERCENTAGE} from '../core/constants';
+import {INVENTORY_IMAGES, SALE_PERCENTAGE, REQUIRED_NUM_SELECTED} from '../core/constants';
 import _ from '../node_modules/lodash';
 import request from 'superagent';
 import Cookies from '../node_modules/js-cookie/src/js.cookie.js';
@@ -215,63 +215,63 @@ const store = createStore((state = initialState, action) => {
         case GET_INVENTORY_RESPONSE:
 
             var newInventory = [],
+                inventoryItem,
                 inventoryMissingImages = [],
                 existingInventory = action.data.data,
-                itemFound = false,
-                i;
+                savedStack = [],
+                cookie = Cookies.get(COOKIE_NAME) ? JSON.parse(Cookies.get(COOKIE_NAME)) : {};
 
-            // Grab any items that were previously checked.
-            var cookie = Cookies.get(COOKIE_NAME) ? JSON.parse(Cookies.get(COOKIE_NAME)) : {},
-                savedStack = cookie.selectedProducts || [];
-
-            // Cycle over all the products we have images for looking for matches:
+            // Cycle over all the products and look for their associated image:
             existingInventory.map(item=> {
 
-                itemFound = false;
+                inventoryItem = INVENTORY_IMAGES.filter(imageItem=>{
+                    return imageItem.sku === item.sku;
+                }).pop() || null;
 
-                for (i = 0; i < INVENTORY_IMAGES.length; i++) {
+                if (inventoryItem) { // We have an image.
+                    newInventory.push(Object.assign({selected:false}, item, inventoryItem));
 
-                    if (INVENTORY_IMAGES[i].sku == item.sku) {
-                        itemFound = true;
-                        break;
-                    }
-                }
-
-                if (itemFound) {
-
-                    var itemDataWithImage = INVENTORY_IMAGES[i];
-                    itemDataWithImage.selected = _.find(savedStack, (stackItem)=> {
-                        return item.product_id === stackItem.product_id;
-                    });
-
-                    newInventory.push(Object.assign({}, item, itemDataWithImage));
-
-                } else {
-                    inventoryMissingImages.push(Object.assign({}, item, INVENTORY_IMAGES[i]));
+                } else { // No associated image.
+                    inventoryMissingImages.push(item);
                 }
 
             });
 
+            // Warn about missing images.
             _.each(inventoryMissingImages, (item)=> {
                 console.warn('Image missing for item #' + item.product_id, item.sku, item.name);
+            });
+
+            // Filter through the new inventory for previously cookied items:
+            _.each(newInventory, (item)=>{
+                item.selected = _.find(cookie.selectedProducts, (selectedItem)=>{
+                    return item.sku === selectedItem;
+                }) ? true : false;
+            });
+
+            // TODO: Add flag for shared vs. just cookied?
+
+            // Update the saved stack:
+            savedStack = newInventory.filter(item=>{
+                return item.selected;
             });
 
             state = {...state,
                 inventory: newInventory,
                 stack: savedStack,
-                enoughSelected: savedStack.length >= 2,
+                enoughSelected: savedStack.length >= REQUIRED_NUM_SELECTED,
                 processingStoreRequest: false,
                 urlCart: ''
             };
 
             if(savedStack.length > 0){
+
                 // Coming from a previous saved state
                 // or social share; go to the arrange page
 
                 history.push({pathname: "/arrange"});
 
                 return state;
-
 
             }else{
                 return state;
@@ -320,11 +320,11 @@ const store = createStore((state = initialState, action) => {
             // This should re-set the Add to Cart Button.
             newState.urlCart = '';
 
-            Cookies.set(COOKIE_NAME, {
+            Cookies.set(COOKIE_NAME, JSON.stringify({
                     selectedProducts: newState.stack.map(item=> {
-                        return item
+                        return item.sku
                     })
-                },
+                }),
                 {
                     expires: 7
                 }

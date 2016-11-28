@@ -2,6 +2,7 @@
  * Created by fst on 11/14/16.
  */
 export const SALE_PERCENTAGE = 20;
+export const REQUIRED_NUM_SELECTED = 2;
 export const INVENTORY_IMAGES = [
     {
         "sku": "SB-B8BOCAB",
