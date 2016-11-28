@@ -64,14 +64,14 @@ class ChoosePage extends React.Component {
 
     handleScroll(){
 
-        var el = document.getElementById('StackControls'),
+        var el = document.getElementById('ScrolledStackControls'),
             container = document.getElementById('Stack'),
             viewportOffset = container.getBoundingClientRect();
 
         if(viewportOffset.top < -100 ){
-            el.classList.add(s.fixedControls);
+            el.classList.remove(s.hidden);
         }else{
-            el.classList.remove(s.fixedControls);
+            el.classList.add(s.hidden);
         }
 
     }
@@ -99,6 +99,24 @@ class ChoosePage extends React.Component {
             <div>
 
                 <div id="StackControls" className={s.stackControls}>
+
+                    <button
+                        disabled={!this.state.enableButton}
+                        onClick={this.compareClick}
+                        className={s.viewButton + " " + (this.state.enableButton ? "" : s.buttonDisabled)}>
+                        View
+                    </button>
+
+                    <button
+                        disabled={!this.state.enableButton}
+                        onClick={this.clearAllClick}
+                        className={s.viewButton + " " + (this.state.stack.length > 0 ? "" : s.buttonDisabled)}>
+                        Clear All
+                    </button>
+
+                </div>
+
+                <div id="ScrolledStackControls" className={s.stackControls + " " + s.scrolledStackControls + " " + s.hidden}>
 
                     <button
                         disabled={!this.state.enableButton}

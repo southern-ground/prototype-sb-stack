@@ -29,10 +29,9 @@
     justify-content:flex-end;
     margin: 0 0 24px;
     transition: all 1s ease-in-out;
-    z-index:999;
 }
 
-.fixedControls{
+.scrolledStackControls{
     position: fixed;
     width: 100%;
     top: 0;
@@ -40,12 +39,15 @@
     justify-content:center;
     padding: 20px 0;
     background: rgba(255,255,255,0.5);
+    opacity: 1.0;
+    z-index:999;
+    transition: all 1s ease-in-out;
 }
 
-@media screen and (max-width: 1024px) {
-    .stackControls{
-        justify-content:center;
-    }
+.hidden{
+    opacity: 0.0;
+    top: -100px;
+    transition: all 1s ease-in-out;
 }
 
 .viewButton{
@@ -60,9 +62,11 @@
 .viewButton:not(last-of-type){
     margin-right: 20px;
 }
+
 .buttonDisabled{
     opacity: 0.6;
 }
+
 .instructions{
     position: relative;
     text-transform: uppercase;
@@ -70,6 +74,7 @@
     width: 100%;
     font-size: 20px;
 }
+
 .inventoryContainer{
     float: none;
     *zoom: 1;
@@ -81,10 +86,6 @@
     flex-wrap: wrap;
     position: relative;
     margin: 40px 0 20px 0;
-}
-
-.buttonDisabled{
-    opacity: 0.6;
 }
 
 .inventoryNav{
@@ -112,10 +113,19 @@
         flex-direction: column;
     }
 }
+
 @media screen and (max-width: 1024px) {
 
     .inventoryContainer {
         padding: 0 16px;
+    }
+
+    .stackControls{
+        justify-content: space-around;
+    }
+
+    .viewButton:not(last-of-type){
+        margin-right: 0;
     }
 
 }
