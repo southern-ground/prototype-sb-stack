@@ -22,6 +22,7 @@ import {
 } from '../core/action-types';
 import {
     API_URL,
+    BUBBLE_UP_API_URL,
     COOKIE_NAME,
     IMAGE_DATA_URL,
     SALE_PERCENTAGE
