@@ -220,9 +220,9 @@ const store = createStore((state = initialState, action) => {
 
                 itemFound = false;
 
-                for (i = 0; i < INVENTORY_IMAGES.length; i++) {
+                for (i = 0; i < state.imageData.length; i++) {
 
-                    if (INVENTORY_IMAGES[i].sku == item.sku) {
+                    if (state.imageData[i].sku == item.sku) {
                         itemFound = true;
                         break;
                     }
@@ -230,7 +230,7 @@ const store = createStore((state = initialState, action) => {
 
                 if (itemFound) {
 
-                    var itemDataWithImage = INVENTORY_IMAGES[i];
+                    var itemDataWithImage = state.imageData[i];
                     itemDataWithImage.selected = _.find(savedStack, (stackItem)=> {
                         return item.product_id === stackItem.product_id;
                     });
@@ -238,7 +238,7 @@ const store = createStore((state = initialState, action) => {
                     newInventory.push(Object.assign({}, item, itemDataWithImage));
 
                 } else {
-                    inventoryMissingImages.push(Object.assign({}, item, INVENTORY_IMAGES[i]));
+                    inventoryMissingImages.push(Object.assign({}, item, state.imageData[i]));
                 }
 
             });
