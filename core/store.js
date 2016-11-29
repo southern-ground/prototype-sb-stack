@@ -175,10 +175,10 @@ const store = createStore((state = initialState, action) => {
 
             return {...state, inventory: newInventory, stack: newStack};
 
-        case GET_INVENTORY:
-
+        case GET_IMAGE_DATA_RESPONSE:
+            // Retrieved the image data; now get the actual inventory:
             request
-                .get('http://shellybrown.com/api.php?action=inventory')
+                .get(API_URL)
                 .end((err, res) => {
                     if (err) {
                         /*
@@ -190,12 +190,27 @@ const store = createStore((state = initialState, action) => {
                     } else {
                         const data = JSON.parse(res.text);
                         /*
-                         Once data is received, dispatch an action telling the application 
-                         that data was received successfully, along with the parsed data 
+                         Once data is received, dispatch an action telling the application
+                         that data was received successfully, along with the parsed data
                          */
                         store.dispatch({type: GET_INVENTORY_RESPONSE, data})
                     }
                 });
+            return {...state, imageData: action.data};
+        case GET_INVENTORY:
+
+            // Let's first get the JSON data of images.
+            request
+                .get(IMAGE_DATA_URL)
+                .end((err, res) => {
+                    if (err) {
+                        console.warn('GET_INVENTORY Error:', err);
+                        store.dispatch({type: GET_IMAGE_DATA_ERROR, err});
+                    } else {
+                        store.dispatch({type: GET_IMAGE_DATA_RESPONSE, data: JSON.parse(res.text).stackItems || []});
+                    }
+                });
+
             return state;
 
         case GET_INVENTORY_ERROR:
