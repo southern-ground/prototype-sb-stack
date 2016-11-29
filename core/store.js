@@ -15,17 +15,22 @@ import {
     UPDATE_INVENTORY,
     REMOVE_ITEM,
     GET_INVENTORY_RESPONSE, GET_INVENTORY_ERROR, GET_INVENTORY,
+    GET_IMAGE_DATA_RESPONSE, GET_IMAGE_DATA_ERROR,
     GET_PRICE, GET_PRICE_RESPONSE,
-    ADD_TO_CART, ADD_TO_CART_RESPONSE, ADD_TO_CART_ERROR,
+    ADD_TO_CART, ADD_TO_CART_ERROR,
     CLEAR_ALL_ITEMS
 } from '../core/action-types';
-import {INVENTORY_IMAGES, SALE_PERCENTAGE} from '../core/constants';
+import {
+    API_URL,
+    COOKIE_NAME,
+    IMAGE_DATA_URL,
+    SALE_PERCENTAGE
+} from '../core/constants';
 import _ from '../node_modules/lodash';
 import request from 'superagent';
 import Cookies from '../node_modules/js-cookie/src/js.cookie.js';
 import history from './history';
 
-const COOKIE_NAME = 'com.shellybrown';
 
 // Centralized application state
 // For more information visit http://redux.js.org/
