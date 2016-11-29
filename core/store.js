@@ -32,10 +32,6 @@ import request from 'superagent';
 import Cookies from '../node_modules/js-cookie/src/js.cookie.js';
 import history from './history';
 
-
-// Centralized application state
-// For more information visit http://redux.js.org/
-
 const initialState = {
     inventory: [],
     stack: [],
@@ -43,16 +39,16 @@ const initialState = {
 };
 
 const store = createStore((state = initialState, action) => {
-    // TODO: Add action handlers (aka "reduces")
 
-    // console.log('action.type: ' + action.type);
+    console.log('ACTION:', action.type);
 
     switch (action.type) {
 
         case CLEAR_ALL_ITEMS:
 
             Cookies.set(COOKIE_NAME, {
-                    selectedProducts: []
+                    selectedProducts: [],
+                    action: action.type
                 },
                 {
                     expires: 7
@@ -67,39 +63,26 @@ const store = createStore((state = initialState, action) => {
 
         case ADD_TO_CART:
 
-            var URLs = {
-                    "bubbleUp": "https://www.shellybrownstore.com/addbysku/index/index?skus=", // URL Provided by BubbleUp (triggers 301 redirect)
-                    "redirect": "https://store.shellybrown.com/addbysku/index/index?skus=", // URL Targeted in redirect
-                    "internalAPI": "https://www.shellybrownstore.com/api.php?action=addToCart&skus="
-                }, url = URLs.redirect,
-                productSKUs = state.stack.map((item)=> {
-                    return item.sku;
-                });
-
-            url += productSKUs.join(',');
+            var productSKUs = state.stack.map((item)=> {
+                return item.sku;
+            });
 
             request
-                .get(url)
+                .get(BUBBLE_UP_API_URL + productSKUs.join(','))
                 .withCredentials()
                 .end((err, res) => {
 
                     if (err) {
-                        /*
-                         in case there is any error, dispatch an action containing the error
-                         */
+
+                        // In the HIGHLY unlikely event of an error ...
                         console.warn('ADD_TO_CART Error:');
                         console.log(err);
                         store.dispatch({type: ADD_TO_CART_ERROR, err});
+
                     } else {
 
                         var response = JSON.parse(res.text);
                         window.location = response.url_cart;
-
-                        /*store.dispatch({
-                         type: ADD_TO_CART_RESPONSE,
-                         data: JSON.parse(res.text)
-                         });
-                         */
 
                     }
                 });
@@ -327,12 +310,15 @@ const store = createStore((state = initialState, action) => {
 
             // Clear the reference to the cart if it previously existed.
             // This should re-set the Add to Cart Button.
+
             newState.urlCart = '';
 
             Cookies.set(COOKIE_NAME, {
                     selectedProducts: newState.stack.map(item=> {
-                        return item
-                    })
+                            return item
+                        },
+                    ),
+                    action: action.type
                 },
                 {
                     expires: 7
