@@ -100,18 +100,6 @@ const store = createStore((state = initialState, action) => {
 
             return {...state, processingStoreRequest: true};
 
-        /*
-         case ADD_TO_CART_RESPONSE:
-
-         console.log('ADD_TO_CART_RESPONSE', action.data.url_cart);
-
-         return {
-         ...state,
-         urlCart: action.data.url_cart,
-         urlCheckout: action.data.url_checkout
-         };
-         */
-
         case GET_PRICE:
 
             state.stack.map((item)=> {
@@ -133,7 +121,6 @@ const store = createStore((state = initialState, action) => {
                                  */
                                 console.warn('Price Retrieval Error:');
                                 console.log(err);
-
                                 store.dispatch({type: GET_INVENTORY_ERROR, err});
 
                             } else {
@@ -256,7 +243,8 @@ const store = createStore((state = initialState, action) => {
                 console.warn('Image missing for item #' + item.product_id, item.sku, item.name);
             });
 
-            state = {...state,
+            state = {
+                ...state,
                 inventory: newInventory,
                 stack: savedStack,
                 enoughSelected: savedStack.length >= 2,
@@ -264,7 +252,7 @@ const store = createStore((state = initialState, action) => {
                 urlCart: ''
             };
 
-            if(savedStack.length > 0){
+            if (savedStack.length > 0) {
                 // Coming from a previous saved state
                 // or social share; go to the arrange page
 
@@ -273,7 +261,7 @@ const store = createStore((state = initialState, action) => {
                 return state;
 
 
-            }else{
+            } else {
                 return state;
             }
 
