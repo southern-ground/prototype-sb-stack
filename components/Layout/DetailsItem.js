@@ -5,7 +5,7 @@
 import React from 'react';
 import s from './DetailsItem.css';
 import NumericLabel from './NumericLabel';
-import {REMOVE_ITEM} from '../../core/action-types';
+import {TOGGLE_ITEM} from '../../core/action-types';
 import store from '../../core/store';
 
 class DetailsItem extends React.Component {
@@ -20,7 +20,7 @@ class DetailsItem extends React.Component {
         e.preventDefault();
 
         store.dispatch({
-            type: REMOVE_ITEM,
+            type: TOGGLE_ITEM,
             sku: e.target.getAttribute('data-sku')
         });
 
