@@ -13,7 +13,7 @@ class StackItem extends React.Component {
 
     render() {
         return (
-            <div className={s.stackItem + " stack-item"} data-sku={this.props.sku}>
+            <div className={s.stackItem + " stack-item"} data-sku={this.props.sku} draggable="false">
                 <img className={s.stackItemImage} src={ "/img/product/" + this.props.image }/>
             </div>
         );
