@@ -20,6 +20,7 @@ import InventoryItem from '../../components/InventoryItem/InventoryItem';
 import store from '../../core/store';
 import history from '../../core/history';
 import {GET_INVENTORY, CLEAR_ALL_ITEMS} from '../../core/action-types';
+import {NUM_SELECTED_REQUIRED} from '../../core/constants';
 
 class ChoosePage extends React.Component {
 
@@ -30,11 +31,15 @@ class ChoosePage extends React.Component {
         this.updateProps = this.updateProps.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
 
+        var _state = store.getState(),
+            numSelected = _state.inventory.filter((item)=> {
+                return item.selected;
+            }).length;
+
         this.state = {
-            inventory: store.getState().inventory,
-            stack: store.getState().stack,
-            selectCount: store.getState().stack.length,
-            enableButton: store.getState().enoughSelected
+            inventory: _state.inventory,
+            enableView: numSelected >= NUM_SELECTED_REQUIRED,
+            enableClear: numSelected > 0
         };
 
     }
@@ -45,7 +50,7 @@ class ChoosePage extends React.Component {
 
         document.title = title;
 
-        if(this.state.inventory.length === 0){
+        if (this.state.inventory.length === 0) {
             store.dispatch({
                 type: GET_INVENTORY
             })
@@ -55,7 +60,7 @@ class ChoosePage extends React.Component {
 
     componentDidMount() {
 
-        var findPos = (obj)=>{
+        var findPos = (obj)=> {
             var curtop = 0;
             if (obj.offsetParent) {
                 do {
@@ -65,32 +70,32 @@ class ChoosePage extends React.Component {
             }
         };
 
-        window.scroll(0,findPos(document.getElementById("container")));
+        window.scroll(0, findPos(document.getElementById("container")));
 
-        document.addEventListener('scroll',  _.debounce(this.handleScroll, 500));
+        document.addEventListener('scroll', _.debounce(this.handleScroll, 500));
 
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.unsubscribeFunciton();
         document.removeEventListener('scroll', _.debounce(this.handleScroll, 500));
     }
 
-    handleScroll(){
+    handleScroll() {
 
-        try{
+        try {
 
             var el = document.getElementById('ScrolledStackControls'),
                 container = document.getElementById('Stack'),
                 viewportOffset = container.getBoundingClientRect();
 
-            if(viewportOffset.top < -100 ){
+            if (viewportOffset.top < -100) {
                 el.classList.remove(s.hidden);
-            }else{
+            } else {
                 el.classList.add(s.hidden);
             }
 
-        }catch(e){
+        } catch (e) {
             // Nothing; it's a short-coming of the mount/dismount process
             // and the sortable JS library.
         }
@@ -98,58 +103,70 @@ class ChoosePage extends React.Component {
     }
 
     updateProps() {
-        var _state = store.getState();
+
+        var _state = store.getState(),
+            numSelected = _state.inventory.filter((item)=> {
+                return item.selected;
+            }).length;
+
         this.setState({
             inventory: _state.inventory,
             stack: _state.stack,
-            selectCount: _state.stack.length,
-            enableButton: _state.enoughSelected
+            enableView: numSelected >= NUM_SELECTED_REQUIRED,
+            enableClear: numSelected > 0
         });
+
     }
 
-    clearAllClick(){
-        store.dispatch({type:CLEAR_ALL_ITEMS});
+    clearAllClick() {
+
+        store.dispatch({type: CLEAR_ALL_ITEMS});
+
     }
 
     compareClick() {
+
         history.push({pathname: "/arrange"});
+
     }
 
-    renderInventory(){
+    renderInventory() {
+
         return (
             <div>
 
                 <div id="StackControls" className={s.stackControls}>
 
                     <button
-                        disabled={!this.state.enableButton}
+                        disabled={!this.state.enableView}
                         onClick={this.compareClick}
-                        className={s.viewButton + " " + (this.state.enableButton ? "" : s.buttonDisabled)}>
+                        className={s.viewButton + " " + (this.state.enableView ? "" : s.buttonDisabled)}>
                         View
                     </button>
 
                     <button
-                        disabled={!this.state.enableButton}
+                        disabled={!this.state.enableClear}
                         onClick={this.clearAllClick}
-                        className={s.viewButton + " " + (this.state.stack.length > 0 ? "" : s.buttonDisabled)}>
+                        className={s.viewButton + " " + (this.state.enableClear ? "" : s.buttonDisabled)}>
                         Clear All
                     </button>
 
                 </div>
 
-                <div id="ScrolledStackControls" className={s.stackControls + " " + s.scrolledStackControls + " " + s.hidden}>
+                <div id="ScrolledStackControls"
+                     className={s.stackControls + " " + s.scrolledStackControls + " " + s.hidden}>
 
                     <button
-                        disabled={!this.state.enableButton}
+                        disabled={!this.state.enableView}
                         onClick={this.compareClick}
-                        className={s.viewButton + " " + (this.state.enableButton ? "" : s.buttonDisabled)}>
+                        className={s.viewButton + " " + (this.state.enableView ? "" : s.buttonDisabled)}>
                         View
                     </button>
 
                     <button
-                        disabled={!this.state.enableButton}
+                        disabled={!this.state.enableClear}
                         onClick={this.clearAllClick}
-                        className={s.viewButton + " " + (this.state.stack.length > 0 ? "" : s.buttonDisabled)}>
+                        className={s.viewButton + " " + (this.state.enableClear ? "" : s.buttonDisabled)}>
                         Clear All
                     </button>
 
@@ -176,11 +193,11 @@ class ChoosePage extends React.Component {
         );
     }
 
-    renderLoading(){
+    renderLoading() {
         return (
             <div className={s.inventoryContainer + " " + s.loading}>
                 <h3>Please Wait</h3>
-                <img className={s.inventoryLoadingAnimation} src="/img/loading.gif" />
+                <img className={s.inventoryLoadingAnimation} src="/img/loading.gif"/>
                 <p>We're fetching all available products.</p>
             </div>
         );

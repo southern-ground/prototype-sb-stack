@@ -20,11 +20,14 @@ import Sortable from 'sortablejs';
 import {
     UPDATE_INVENTORY,
     REMOVE_ITEM,
+    TOGGLE_ITEM,
     GET_PRICE,
-    GET_PRICE_RESPONSE,
-    ADD_TO_CART
+    ADD_TO_CART,
+    SET_STACK_ORDER
 } from "../../core/action-types";
-import NumericLabel from "../../components/Layout/NumericLabel";
+import {
+    NUM_SELECTED_REQUIRED
+} from "../../core/constants";
 import DetailsItem from "../../components/Layout/DetailsItem";
 
 class StackPage extends React.Component {
@@ -45,14 +48,12 @@ class StackPage extends React.Component {
             inventory: [],
             enoughSelected: true,
             showDetails: false,
-            stackOrder: [],
             processingStoreRequest: false,
-            successfullyAddedToCart: false,
             urlCart: ''
         };
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.unsubscribeFunction = store.subscribe(this.updateProps);
     }
 
@@ -60,7 +61,7 @@ class StackPage extends React.Component {
 
         this.updateProps();
 
-        var findPos = (obj)=>{
+        var findPos = (obj)=> {
             var curtop = 0;
             if (obj.offsetParent) {
                 do {
@@ -70,70 +71,83 @@ class StackPage extends React.Component {
             }
         };
 
-        window.scroll(0,findPos(document.getElementById("container")));
+        window.scroll(0, findPos(document.getElementById("container")));
 
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.unsubscribeFunction();
     }
 
     updateProps() {
 
-        var newState = store.getState();
+        console.log('arrange::updateProps');
+
+        var newState = store.getState(),
+            localizedInventory = newState.inventory
+                .filter((item)=> {
+                    return item.selected;
+                })
+                .sort((a, b)=> {
+                    if (a.stackOrder > b.stackOrder) {
+                        return 1;
+                    }
+                    return -1;
+                });
+
+        console.log('INVENTORY REGURGITATE');
+        localizedInventory.forEach((item, index)=> {
+            console.log(index, item.stackOrder, item.sku, item.product_id, item.name);
+        });
 
         this.setState({
             ...this.state,
-            inventory: newState.stack,
-            enoughSelected: newState.enoughSelected,
+            inventory: localizedInventory,
+            enoughSelected: localizedInventory.length >= NUM_SELECTED_REQUIRED,
             processingStoreRequest: newState.processingStoreRequest || false,
-            successfullyAddedToCart: newState.urlCart ? true : false,
             urlCart: newState.urlCart || ''
         });
 
     }
 
     sortableContainersDecorator = (componentBackingInstance) => {
+
         // check if backing instance not null
+
         if (componentBackingInstance) {
+
             let options = {
                 draggable: ".stack-item", // Restricts sort start click/touch to the specified element
                 group: "stack",
-                onUpdate: this.orderUpdate,
-                pull: (from,to)=>{
-                    console.log('pull', from, to);
-                }
+                onUpdate: this.orderUpdate
             };
 
             Sortable.create(componentBackingInstance, options);
+
         }
+
     };
 
     orderUpdate(e) {
 
-        var newOrder = [];
-
-        for (var i = 0; i < e.from.children.length; i++) {
-            newOrder.push(e.from.children[i].getAttribute('data-sku'));
-        }
-
-        var inventory = this.state.inventory.map(item=>{
-            newOrder.map((newOrderItem, index)=>{
-                if(newOrderItem === item.sku){
-                    item.stackOrder = index;
+        var els = ((htmlCollection)=> {
+                let a = [], i = 0;
+                for (i; i < htmlCollection.length; i++) {
+                    a.push(htmlCollection[i]);
                 }
-                return newOrderItem;
+                return a;
+            })(e.to.children),
+            newOrder = els.map((item)=> {
+                return item.getAttribute('data-sku');
+            }),
+            reorderedInventory = this.state.inventory.map((item)=> {
+                item.stackOrder = _.findIndex(newOrder, (sku)=> {
+                        return sku === item.sku;
+                    }) || 0;
+                return item;
             });
-            return item;
-        });
 
-        inventory = _.sortBy(inventory, 'stackOrder');
-
-        this.setState({
-            alternateInventory: inventory,
-            stackOrder: newOrder
-        });
-
+        store.dispatch({type: SET_STACK_ORDER, data: reorderedInventory});
 
     }
 
@@ -149,7 +163,7 @@ class StackPage extends React.Component {
         history.push({pathname: "/stack"});
     }
 
-    addToCart(){
+    addToCart() {
         console.log('stack::addToCart');
         store.dispatch(
             {
@@ -158,13 +172,13 @@ class StackPage extends React.Component {
         );
     }
 
-    checkOut(){
+    checkOut() {
         console.log('stack::checkOut');
         window.location = this.state.urlCart;
     }
 
     toggleDetails() {
-        if(!this.state.showDetails){
+        if (!this.state.showDetails) {
             store.dispatch({
                 type: GET_PRICE
             });
@@ -179,7 +193,7 @@ class StackPage extends React.Component {
         e.preventDefault();
 
         store.dispatch({
-            type: REMOVE_ITEM,
+            type: TOGGLE_ITEM,
             sku: e.target.getAttribute('data-sku')
         });
 
@@ -187,20 +201,14 @@ class StackPage extends React.Component {
 
     render() {
 
+        console.log('arrange::render');
+
         if (!this.state.enoughSelected) {
             history.push({pathname: "/stack"});
             return <div/>
         }
 
-        var totalCost = 0,
-            currencyParams = {
-                justification: 'L',
-                currency: true,
-                currencyIndicator: 'USD',
-                percentage: false,
-                precision: 2,
-                commafy: true
-            };
+        var totalCost = 0;
 
         this.state.inventory.map(item=> {
             totalCost += item.price;
@@ -221,17 +229,16 @@ class StackPage extends React.Component {
 
             <div className={s.stackWrapper + " sortable"} ref={this.sortableContainersDecorator}>
 
-                {this.state.inventory.map((item, index)=> {
-
+                {this.state.inventory.map(item=> {
                     return <StackItem
                         className="stack-item"
                         image={item.image}
                         sku={item.sku}
-                        stackOrder={item.stackOrder || index}
-                        key={'stackItem-' + index}
+                        key={'stackItem-' + item.sku}
                     />
-
                 })}
+
+                {}
 
             </div>
 
@@ -252,7 +259,7 @@ class StackPage extends React.Component {
                         isHR={true}
                     />
 
-                    {this.state.inventory.map((item, index)=>{
+                    {this.state.inventory.map((item, index)=> {
                         return (
                             <DetailsItem
                                 name={item.name}
