@@ -278,14 +278,13 @@ const store = createStore((state = initialState, action) => {
 
         case GET_PRICE:
 
-            state.stack.map((item)=> {
+            var currentStack = state.inventory.filter((item) => {
+                    return item.selected;
+                });
+
+            currentStack.forEach((item) => {
 
                 if (item.price == 0) {
-
-                    // Is the item currently on sale?
-                    var onSale = _.find(item.category_ids, item=> {
-                        return item === "74";
-                    });
 
                     request
                         .get('http://shellybrown.com/api.php?action=msrp&productID=' + item.product_id)
