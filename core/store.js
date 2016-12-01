@@ -40,7 +40,7 @@ const initialState = {
 
 const store = createStore((state = initialState, action) => {
 
-    console.log('ACTION:', action.type);
+    // console.log('ACTION:', action.type);
 
     const getBlankCookie = (()=> {
         // Generates a cookie from a known template.
@@ -60,22 +60,21 @@ const store = createStore((state = initialState, action) => {
 
         /*
 
-        TODO: Handle any items coming from social share.
+         TODO: Handle any items coming from social share.
 
-        Idea for handling:
+         Idea for handling:
 
-        1. IF shared items are defined, comb on order v. SKU.
-        2. Update items as selected as needs be.
-        3. Blank the share items on toggle/save.
+         1. IF shared items are defined, comb on order v. SKU.
+         2. Update items as selected as needs be.
+         3. Blank the share items on toggle/save.
 
-        */
+         */
 
         return cookie;
     });
 
     const loadCookie = (()=> {
         var cookie = Cookies.get(COOKIE_NAME) ? JSON.parse(Cookies.get(COOKIE_NAME)) : getBlankCookie();
-        console.log('Raw Cookie:',cookie);
         return combCookie(cookie);
     });
 
@@ -201,7 +200,7 @@ const store = createStore((state = initialState, action) => {
                     return item.selected;
                 }).length,
                 stackOrderReIndex = -1,
-                inventoryUpdate = state .inventory.map((item)=> {
+                inventoryUpdate = state.inventory.map((item)=> {
                     if (item.sku === action.sku) {
 
                         // Item to toggle.
@@ -220,7 +219,6 @@ const store = createStore((state = initialState, action) => {
                 });
 
             if (stackOrderReIndex != -1) {
-                console.log('Re-index');
                 // There was an item removed;
                 // Cycle through and de-increment any higher stack orders.
                 inventoryUpdate.forEach((item)=> {
@@ -229,12 +227,6 @@ const store = createStore((state = initialState, action) => {
                     }
                 });
             }
-
-            inventoryUpdate.filter((item)=>{
-                return item.selected;
-            }).map((item,index)=>{
-                console.log(index,item.stackOrder,item.sku,item.name);
-            });
 
             writeCookie({
                 action: action.type,
@@ -387,13 +379,13 @@ const store = createStore((state = initialState, action) => {
 
         case SET_STACK_ORDER:
 
-            var inventoryUpdate = state.inventory.map((item)=>{
+            var inventoryUpdate = state.inventory.map((item)=> {
 
-                var updateItem = _.find(action.data, (itemUpdate)=>{
+                var updateItem = _.find(action.data, (itemUpdate)=> {
                     return itemUpdate.sku === item.sku
                 });
 
-                if(updateItem){
+                if (updateItem) {
                     item.stackOrder = updateItem.stackOrder;
                 }
 

@@ -51,10 +51,13 @@ class StackPage extends React.Component {
             processingStoreRequest: false,
             urlCart: ''
         };
+
     }
 
     componentWillMount() {
+
         this.unsubscribeFunction = store.subscribe(this.updateProps);
+
     }
 
     componentDidMount() {
@@ -76,12 +79,12 @@ class StackPage extends React.Component {
     }
 
     componentWillUnmount() {
+
         this.unsubscribeFunction();
+
     }
 
     updateProps() {
-
-        console.log('arrange::updateProps');
 
         var newState = store.getState(),
             localizedInventory = newState.inventory
@@ -94,11 +97,6 @@ class StackPage extends React.Component {
                     }
                     return -1;
                 });
-
-        console.log('INVENTORY REGURGITATE');
-        localizedInventory.forEach((item, index)=> {
-            console.log(index, item.stackOrder, item.sku, item.product_id, item.name);
-        });
 
         this.setState({
             ...this.state,
@@ -161,31 +159,37 @@ class StackPage extends React.Component {
         });
 
         history.push({pathname: "/stack"});
+
     }
 
     addToCart() {
-        console.log('stack::addToCart');
+
         store.dispatch(
             {
                 type: ADD_TO_CART
             }
         );
+
     }
 
     checkOut() {
-        console.log('stack::checkOut');
+
         window.location = this.state.urlCart;
+
     }
 
     toggleDetails() {
+
         if (!this.state.showDetails) {
             store.dispatch({
                 type: GET_PRICE
             });
         }
+
         this.setState({
             showDetails: !this.state.showDetails
         });
+
     }
 
     removeInventoryItem(e) {
@@ -200,8 +204,6 @@ class StackPage extends React.Component {
     }
 
     render() {
-
-        console.log('arrange::render');
 
         if (!this.state.enoughSelected) {
             history.push({pathname: "/stack"});
