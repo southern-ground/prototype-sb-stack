@@ -34,8 +34,7 @@ import Cookies from '../node_modules/js-cookie/src/js.cookie.js';
 import history from './history';
 
 const initialState = {
-    inventory: [],
-    stack: []
+    inventory: []
 };
 
 const store = createStore((state = initialState, action) => {
@@ -248,14 +247,18 @@ const store = createStore((state = initialState, action) => {
             return {
                 ...state, inventory: state.inventory.map((item) => {
                     return {...item, selected: false}
-                }), stack: [], enoughSelected: false
+                }), enoughSelected: false
             };
 
         case ADD_TO_CART:
 
-            var productSKUs = state.stack.map((item) => {
-                return item.sku;
-            });
+            var productSKUs = state.inventory
+                .filter((item) => {
+                    return item.selected;
+                })
+                .map((item) => {
+                    return item.sku;
+                });
 
             request
                 .get(BUBBLE_UP_API_URL + productSKUs.join(','))
@@ -282,8 +285,8 @@ const store = createStore((state = initialState, action) => {
         case GET_PRICE:
 
             var currentStack = state.inventory.filter((item) => {
-                    return item.selected;
-                });
+                return item.selected;
+            });
 
             currentStack.forEach((item) => {
 
@@ -325,8 +328,7 @@ const store = createStore((state = initialState, action) => {
             var data = action.data.data,
                 updateID = data.product_id,
                 updatePrice = Number(data.price),
-                newInventory,
-                newStack;
+                newInventory;
 
             if (data.on_sale == 1) {
                 updatePrice -= (updatePrice * (SALE_PERCENTAGE / 100));
@@ -339,14 +341,7 @@ const store = createStore((state = initialState, action) => {
                 return item;
             });
 
-            newStack = state.stack.map((item) => {
-                if (item.product_id === updateID) {
-                    item.price = updatePrice;
-                }
-                return item;
-            });
-
-            return {...state, inventory: newInventory, stack: newStack};
+            return {...state, inventory: newInventory};
 
         case GET_INVENTORY_ERROR:
 
@@ -360,20 +355,18 @@ const store = createStore((state = initialState, action) => {
 
         case UPDATE_INVENTORY:
 
-            var newStack = action.items,
-                newInventory = state.inventory.map(item => {
-                    _.each(newStack, newItem => {
-                        if (newItem.sku === item.sku) {
-                            item.stackOrder = newItem.stackOrder;
-                        }
-                    });
-                    return item;
+            var newInventory = state.inventory.map((item)=>{
+                action.items.forEach((newItem)=>{
+                    if(newItem.sku === item.sku){
+                        item.stackOrder = newItem.stackOrder;
+                    }
                 });
+                return item;
+            });
 
             return {
                 ...state,
-                inventory: newInventory,
-                stack: newStack
+                inventory: newInventory
             };
 
         case SET_STACK_ORDER:

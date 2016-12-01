@@ -111,7 +111,6 @@ class ChoosePage extends React.Component {
 
         this.setState({
             inventory: _state.inventory,
-            stack: _state.stack,
             enableView: numSelected >= NUM_SELECTED_REQUIRED,
             enableClear: numSelected > 0
         });
