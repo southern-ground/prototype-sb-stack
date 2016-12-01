@@ -139,32 +139,29 @@ const store = createStore((state = initialState, action) => {
                 previouslySelectedProducts = cookie.selectedProducts,
                 fromShare = cookie.social || false;
 
-            /*
-            console.log('Cookie:', cookie);
+            // console.log('Cookie:', cookie);
 
-            if (previouslySelectedProducts.length > 0) {
-                console.log('(Discovered saved stack)');
-            }
-            */
-
-            // Cycle over all the products we have images for looking for matches:
-            existingInventory.map(item=> {
+            existingInventory.map(item=> { // Cycle over all the products we have images for looking for matches:
 
                 var imageItem = state.imageData.filter((imageItem=> {
-                    return imageItem.sku === item.sku;
-                })).pop();
+                        return imageItem.sku === item.sku;
+                    })).pop(),
+                    previouslySelectedProduct;
 
                 if (imageItem) {
+
                     // The item is good; there's an image for it.
-                    imageItem.selected = previouslySelectedProducts.length === 0 ?
-                        false
-                        :
-                        _.find(previouslySelectedProducts, (stackItem)=> {
+
+                    previouslySelectedProduct = _.find(previouslySelectedProducts, (stackItem)=> {
                             return imageItem.sku === stackItem.sku;
-                        }) || false;
-                    inventoryUpdate.push(Object.assign({}, item, imageItem));
+                        }) || {};
+
+                    inventoryUpdate.push(Object.assign({}, item, imageItem, previouslySelectedProduct));
+
                 } else {
+
                     inventoryMissingImages.push(item);
+
                 }
 
             });
