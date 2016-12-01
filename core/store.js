@@ -152,9 +152,12 @@ const store = createStore((state = initialState, action) => {
 
                     // The item is good; there's an image for it.
 
-                    previouslySelectedProduct = _.find(previouslySelectedProducts, (stackItem)=> {
+                    previouslySelectedProduct = _.find(previouslySelectedProducts, (stackItem) => {
                             return imageItem.sku === stackItem.sku;
                         }) || {};
+
+                    // Clear price to force re-loads.
+                    previouslySelectedProduct.price = 0;
 
                     inventoryUpdate.push(Object.assign({}, item, imageItem, previouslySelectedProduct));
 
