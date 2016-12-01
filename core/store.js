@@ -40,9 +40,9 @@ const initialState = {
 
 const store = createStore((state = initialState, action) => {
 
-    // console.log('ACTION:', action.type);
+    console.log('store.action', action.type, action);
 
-    const getBlankCookie = (()=> {
+    const getBlankCookie = (() => {
         // Generates a cookie from a known template.
         return {
             date: new Date().getTime(),
@@ -53,7 +53,7 @@ const store = createStore((state = initialState, action) => {
         };
     });
 
-    const combCookie = ((cookie)=> {
+    const combCookie = ((cookie) => {
 
         // Cleans a given cookie, adjusting for any previous malfeasances.
         cookie = Object.assign({}, getBlankCookie(), cookie);
@@ -73,16 +73,16 @@ const store = createStore((state = initialState, action) => {
         return cookie;
     });
 
-    const loadCookie = (()=> {
+    const loadCookie = (() => {
         var cookie = Cookies.get(COOKIE_NAME) ? JSON.parse(Cookies.get(COOKIE_NAME)) : getBlankCookie();
         return combCookie(cookie);
     });
 
-    const getCookie = ((settings)=> {
+    const getCookie = ((settings) => {
         return Object.assign({}, getBlankCookie(), settings);
     });
 
-    const writeCookie = ((settings)=> {
+    const writeCookie = ((settings) => {
         Cookies.set(COOKIE_NAME, getCookie(settings), {expires: 7});
     });
 
@@ -141,9 +141,9 @@ const store = createStore((state = initialState, action) => {
 
             // console.log('Cookie:', cookie);
 
-            existingInventory.map(item=> { // Cycle over all the products we have images for looking for matches:
+            existingInventory.map(item => { // Cycle over all the products we have images for looking for matches:
 
-                var imageItem = state.imageData.filter((imageItem=> {
+                var imageItem = state.imageData.filter((imageItem => {
                         return imageItem.sku === item.sku;
                     })).pop(),
                     previouslySelectedProduct;
@@ -166,7 +166,7 @@ const store = createStore((state = initialState, action) => {
 
             });
 
-            _.each(inventoryMissingImages, (item)=> {
+            _.each(inventoryMissingImages, (item) => {
                 console.warn('Image missing for item #' + item.product_id, item.sku, item.name);
             });
 
@@ -177,7 +177,7 @@ const store = createStore((state = initialState, action) => {
                 urlCart: ''
             };
 
-            var numSelected = state.inventory.filter((item)=> {
+            var numSelected = state.inventory.filter((item) => {
                 return item.selected;
             }).length;
 
@@ -193,11 +193,11 @@ const store = createStore((state = initialState, action) => {
 
         case TOGGLE_ITEM:
 
-            var numSelected = state.inventory.filter((item)=> {
+            var numSelected = state.inventory.filter((item) => {
                     return item.selected;
                 }).length,
                 stackOrderReIndex = -1,
-                inventoryUpdate = state.inventory.map((item)=> {
+                inventoryUpdate = state.inventory.map((item) => {
                     if (item.sku === action.sku) {
 
                         // Item to toggle.
@@ -218,7 +218,7 @@ const store = createStore((state = initialState, action) => {
             if (stackOrderReIndex != -1) {
                 // There was an item removed;
                 // Cycle through and de-increment any higher stack orders.
-                inventoryUpdate.forEach((item)=> {
+                inventoryUpdate.forEach((item) => {
                     if (item.stackOrder > stackOrderReIndex) {
                         --item.stackOrder;
                     }
@@ -227,7 +227,7 @@ const store = createStore((state = initialState, action) => {
 
             writeCookie({
                 action: action.type,
-                selectedProducts: inventoryUpdate.filter((item)=> {
+                selectedProducts: inventoryUpdate.filter((item) => {
                     return item.selected;
                 }),
                 sharedProducts: []
@@ -243,14 +243,14 @@ const store = createStore((state = initialState, action) => {
             });
 
             return {
-                ...state, inventory: state.inventory.map((item)=> {
+                ...state, inventory: state.inventory.map((item) => {
                     return {...item, selected: false}
                 }), stack: [], enoughSelected: false
             };
 
         case ADD_TO_CART:
 
-            var productSKUs = state.stack.map((item)=> {
+            var productSKUs = state.stack.map((item) => {
                 return item.sku;
             });
 
@@ -330,14 +330,14 @@ const store = createStore((state = initialState, action) => {
                 updatePrice -= (updatePrice * (SALE_PERCENTAGE / 100));
             }
 
-            newInventory = state.inventory.map((item)=> {
+            newInventory = state.inventory.map((item) => {
                 if (item.product_id === updateID) {
                     item.price = updatePrice;
                 }
                 return item;
             });
 
-            newStack = state.stack.map((item)=> {
+            newStack = state.stack.map((item) => {
                 if (item.product_id === updateID) {
                     item.price = updatePrice;
                 }
@@ -359,8 +359,8 @@ const store = createStore((state = initialState, action) => {
         case UPDATE_INVENTORY:
 
             var newStack = action.items,
-                newInventory = state.inventory.map(item=> {
-                    _.each(newStack, newItem=> {
+                newInventory = state.inventory.map(item => {
+                    _.each(newStack, newItem => {
                         if (newItem.sku === item.sku) {
                             item.stackOrder = newItem.stackOrder;
                         }
@@ -376,9 +376,9 @@ const store = createStore((state = initialState, action) => {
 
         case SET_STACK_ORDER:
 
-            var inventoryUpdate = state.inventory.map((item)=> {
+            var inventoryUpdate = state.inventory.map((item) => {
 
-                var updateItem = _.find(action.data, (itemUpdate)=> {
+                var updateItem = _.find(action.data, (itemUpdate) => {
                     return itemUpdate.sku === item.sku
                 });
 
@@ -392,7 +392,7 @@ const store = createStore((state = initialState, action) => {
 
             writeCookie({
                 action: action.type,
-                selectedProducts: inventoryUpdate.filter((item)=> {
+                selectedProducts: inventoryUpdate.filter((item) => {
                     return item.selected;
                 }),
                 sharedProducts: []
