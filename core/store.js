@@ -24,6 +24,7 @@ import {
     API_URL,
     BUBBLE_UP_API_URL,
     COOKIE_NAME,
+    SHARE_COOKIE_NAME,
     IMAGE_DATA_URL,
     NUM_SELECTED_REQUIRED,
     SALE_PERCENTAGE
@@ -83,6 +84,11 @@ const store = createStore((state = initialState, action) => {
 
     const writeCookie = ((settings) => {
         Cookies.set(COOKIE_NAME, getCookie(settings), {expires: 7});
+    });
+
+    const getShareCookie = (() => {
+        var sharedItems = Cookies.get(SHARE_COOKIE_NAME) || "";
+        return sharedItems.length > 0 ? sharedItems.split('+') : [];
     });
 
     switch (action.type) {
@@ -170,46 +176,40 @@ const store = createStore((state = initialState, action) => {
             });
 
             // Fake it til you make it:
-            var injectFakeCookieData = (enable=>{
-                if(enable){
-                    cookie.sharedProducts = ['SB-B8SSOS', 'SB-B8BOP', 'SB-B8SOLS'];
-                    cookie.social = true;
-                    writeCookie(cookie);
+            var injectFakeCookieData = (enable => {
+                if (enable) {
+                    Cookies.set(SHARE_COOKIE_NAME, 'SB-B8SSOS+SB-B8BOP+SB-B8SOLS');
                 }
             });
 
             // injectFakeCookieData();
 
-            if(cookie.sharedProducts.length > 0 && cookie.social){ // User is coming in from a share:
+            var sharedItems = getShareCookie();
+
+            if (sharedItems.length > 0) { // User is coming in from a share:
 
                 console.warn('Social Share detected');
 
-                // Save any items from a previous visitor:
-                var previouslySavedItems = cookie.selectedProducts;
-
                 // De-select any items; deals with return visitors, etc.:
-                inventoryUpdate.forEach((item)=>{
+                inventoryUpdate.forEach((item) => {
                     item.selected = false;
                     item.stackOrder = -1;
                 });
 
                 // Set the shared products to the current selections:
-                cookie.sharedProducts.forEach((sku,index)=>{
-                    var sharedItem = _.find(inventoryUpdate, (item)=>{
+                sharedItems.forEach((sku, index) => {
+                    console.log(sku,index);
+                    var sharedItem = _.find(inventoryUpdate, (item) => {
                         return item.sku === sku;
                     });
-                    sharedItem.selected = true;
-                    sharedItem.stackOrder = index;
+                    if(sharedItem){
+                        sharedItem.selected = true;
+                        sharedItem.stackOrder = index;
+                    }
                 });
 
-                // Re-set the cookie to your previously selected items
-                // ... and clear the shared items and social flag.
-                writeCookie({
-                    action: action.type,
-                    selectedProducts: previouslySavedItems,
-                    sharedProducts: [],
-                    social: false
-                });
+                // Clear the share cookie to prevent it from lousing up return visits:
+                Cookies.remove(SHARE_COOKIE_NAME);
 
             }
 
@@ -398,9 +398,9 @@ const store = createStore((state = initialState, action) => {
 
         case UPDATE_INVENTORY:
 
-            var newInventory = state.inventory.map((item)=>{
-                action.items.forEach((newItem)=>{
-                    if(newItem.sku === item.sku){
+            var newInventory = state.inventory.map((item) => {
+                action.items.forEach((newItem) => {
+                    if (newItem.sku === item.sku) {
                         item.stackOrder = newItem.stackOrder;
                     }
                 });
