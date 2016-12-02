@@ -64,7 +64,7 @@ class StackPage extends React.Component {
 
         this.updateProps();
 
-        var findPos = (obj)=> {
+        var findPos = (obj) => {
             var curtop = 0;
             if (obj.offsetParent) {
                 do {
@@ -88,10 +88,10 @@ class StackPage extends React.Component {
 
         var newState = store.getState(),
             localizedInventory = newState.inventory
-                .filter((item)=> {
+                .filter((item) => {
                     return item.selected;
                 })
-                .sort((a, b)=> {
+                .sort((a, b) => {
                     if (a.stackOrder > b.stackOrder) {
                         return 1;
                     }
@@ -128,18 +128,18 @@ class StackPage extends React.Component {
 
     orderUpdate(e) {
 
-        var els = ((htmlCollection)=> {
+        var els = ((htmlCollection) => {
                 let a = [], i = 0;
                 for (i; i < htmlCollection.length; i++) {
                     a.push(htmlCollection[i]);
                 }
                 return a;
             })(e.to.children),
-            newOrder = els.map((item)=> {
+            newOrder = els.map((item) => {
                 return item.getAttribute('data-sku');
             }),
-            reorderedInventory = this.state.inventory.map((item)=> {
-                item.stackOrder = _.findIndex(newOrder, (sku)=> {
+            reorderedInventory = this.state.inventory.map((item) => {
+                item.stackOrder = _.findIndex(newOrder, (sku) => {
                         return sku === item.sku;
                     }) || 0;
                 return item;
@@ -205,17 +205,25 @@ class StackPage extends React.Component {
 
     render() {
 
+        var totalCost = 0,
+            skus = this.state.inventory
+                .filter((item) => {
+                    return item.selected
+                })
+                .map((item) => {
+                    return item.sku;
+                })
+                .join('_'),
+            shareURL = "http://www.shellybrown.com/ss/ref=" + skus;
+
         if (!this.state.enoughSelected) {
             history.push({pathname: "/stack"});
             return <div/>
         }
 
-        var totalCost = 0;
-
-        this.state.inventory.map(item=> {
+        this.state.inventory.map(item => {
             totalCost += item.price;
         });
-
 
         return <Layout className={s.content + " " + s.stackContainer}>
 
@@ -231,7 +239,7 @@ class StackPage extends React.Component {
 
             <div className={s.stackWrapper + " sortable"} ref={this.sortableContainersDecorator}>
 
-                {this.state.inventory.map(item=> {
+                {this.state.inventory.map(item => {
                     return <StackItem
                         className="stack-item"
                         image={item.image}
@@ -261,7 +269,7 @@ class StackPage extends React.Component {
                         isHR={true}
                     />
 
-                    {this.state.inventory.map((item, index)=> {
+                    {this.state.inventory.map((item, index) => {
                         return (
                             <DetailsItem
                                 name={item.name}
@@ -291,6 +299,8 @@ class StackPage extends React.Component {
                 </button>
 
             </div>
+
+            {/*<div><a href={shareURL}>Share</a></div>*/}
 
         </Layout>;
     }

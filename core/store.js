@@ -39,7 +39,7 @@ const initialState = {
 
 const store = createStore((state = initialState, action) => {
 
-    console.log('store.action', action.type, action);
+    // console.log('store.action', action.type, action);
 
     const getBlankCookie = (() => {
         // Generates a cookie from a known template.
@@ -135,10 +135,7 @@ const store = createStore((state = initialState, action) => {
                 inventoryMissingImages = [],
                 existingInventory = action.data.data,
                 cookie = loadCookie(),
-                previouslySelectedProducts = cookie.selectedProducts,
-                fromShare = cookie.social || false;
-
-            // console.log('Cookie:', cookie);
+                previouslySelectedProducts = cookie.selectedProducts;
 
             existingInventory.map(item => { // Cycle over all the products we have images for looking for matches:
 
@@ -171,6 +168,50 @@ const store = createStore((state = initialState, action) => {
             _.each(inventoryMissingImages, (item) => {
                 console.warn('Image missing for item #' + item.product_id, item.sku, item.name);
             });
+
+            // Fake it til you make it:
+            var injectFakeCookieData = (enable=>{
+                if(enable){
+                    cookie.sharedProducts = ['SB-B8SSOS', 'SB-B8BOP', 'SB-B8SOLS'];
+                    cookie.social = true;
+                    writeCookie(cookie);
+                }
+            });
+
+            // injectFakeCookieData();
+
+            if(cookie.sharedProducts.length > 0 && cookie.social){ // User is coming in from a share:
+
+                console.warn('Social Share detected');
+
+                // Save any items from a previous visitor:
+                var previouslySavedItems = cookie.selectedProducts;
+
+                // De-select any items; deals with return visitors, etc.:
+                inventoryUpdate.forEach((item)=>{
+                    item.selected = false;
+                    item.stackOrder = -1;
+                });
+
+                // Set the shared products to the current selections:
+                cookie.sharedProducts.forEach((sku,index)=>{
+                    var sharedItem = _.find(inventoryUpdate, (item)=>{
+                        return item.sku === sku;
+                    });
+                    sharedItem.selected = true;
+                    sharedItem.stackOrder = index;
+                });
+
+                // Re-set the cookie to your previously selected items
+                // ... and clear the shared items and social flag.
+                writeCookie({
+                    action: action.type,
+                    selectedProducts: previouslySavedItems,
+                    sharedProducts: [],
+                    social: false
+                });
+
+            }
 
             state = {
                 ...state,
@@ -232,7 +273,8 @@ const store = createStore((state = initialState, action) => {
                 selectedProducts: inventoryUpdate.filter((item) => {
                     return item.selected;
                 }),
-                sharedProducts: []
+                sharedProducts: [],
+                social: false
             });
 
             return {...state, inventory: inventoryUpdate};
@@ -241,7 +283,8 @@ const store = createStore((state = initialState, action) => {
 
             writeCookie({
                 action: action.type,
-                selectedProducts: []
+                selectedProducts: [],
+                social: false
             });
 
             return {
@@ -390,7 +433,8 @@ const store = createStore((state = initialState, action) => {
                 selectedProducts: inventoryUpdate.filter((item) => {
                     return item.selected;
                 }),
-                sharedProducts: []
+                sharedProducts: [],
+                social: false
             });
 
             return {
