@@ -24,6 +24,7 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
+
 }
 
 .button:focus {
@@ -74,6 +75,9 @@
 }
 
 .cartNavigation {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
     margin: 0 0 40px;
 }
 
@@ -82,7 +86,7 @@
 }
 
 .stackAddToCartButton {
-    margin: 0 20px 20px 0;
+    margin: 0 10px 0 0;
 }
 
 .stackDetails {
@@ -99,6 +103,20 @@
     padding: 32px 20px 36px 20px;
 }
 
+.socialButtons{
+    display: flex;
+    flex-direction: row;
+    padding: 0 0 40px 0;
+}
+.socialButton{
+    padding: 0 10px;
+}
+.socialButton:first-child{
+    padding-left: 0;
+}
+.socialButton:last-child{
+    padding-right: 0;
+}
 @media screen and (max-width: 1024px) {
     .stackDetailsVisible {
         display: flex;
@@ -118,4 +136,60 @@
         margin-right: auto;
     }
 
+}
+.twitterShareButton{
+    background-color: rgb(27,149,224);
+    color: rgb(255,255,255);
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Helvetica Neue", Arial, sans-serif !important;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 500;
+    height: 20px;
+    line-height: 18px;
+    outline-color: rgb(255,255,255);
+    outline-style: none;
+    outline-width: 0px;
+    padding: 1px 8px 1px 6px;
+    white-space: nowrap;
+    zoom: 1;
+}
+.twitterShareButton:hover{
+    color: rgb(255,255,255) !important;
+}
+.twitterIcon{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url(http://www.shellybrown.com/img/twitter.svg);
+    background-origin: padding-box;
+    background-position-x: 0px;
+    background-position-y: 0px;
+    background-size: auto;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px;
+    font-stretch: normal;
+    font-style: italic;
+    font-variant-caps: normal;
+    font-variant-ligatures: normal;
+    font-variant-numeric: normal;
+    font-weight: 500;
+    height: 14px;
+    line-height: 18px;
+    position: relative;
+    text-align: left;
+    top: 2px;
+    user-select:   none;
+    white-space: nowrap;
+    width: 14px;
+
+}
+.twitterIcon:hover{
+    color: rgb(255,255,255) !important;
 }

@@ -43,6 +43,7 @@ class StackPage extends React.Component {
         this.backClick = this.backClick.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.checkOut = this.checkOut.bind(this);
+        this.updateTwitter = this.updateTwitter.bind(this);
 
         this.state = {
             inventory: [],
@@ -105,6 +106,10 @@ class StackPage extends React.Component {
             processingStoreRequest: newState.processingStoreRequest || false,
             urlCart: newState.urlCart || ''
         });
+
+        // clearTimeout(this.twitterTimeout);
+
+        // this.twitterTimeout = setTimeout(this.updateTwitter, 5000);
 
     }
 
@@ -203,6 +208,23 @@ class StackPage extends React.Component {
 
     }
 
+    updateTwitter(){
+        window.twttr = (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+            t._e = [];
+            t.ready = function (f) {
+                t._e.push(f);
+            };
+            return t;
+        }(document, "script", "twitter-wjs"))
+    }
+
     render() {
 
         var totalCost = 0,
@@ -214,7 +236,8 @@ class StackPage extends React.Component {
                     return item.sku;
                 })
                 .join('_'),
-            shareURL = "http://www.shellybrown.com/ss/ref=" + skus;
+            shareURL = "http://www.shellybrown.com/ss/ref=" + skus,
+            twitterURL = encodeURI("I just built a Shelly Brown stack, and it's A-MAZ-ING! " + shareURL);
 
         if (!this.state.enoughSelected) {
             history.push({pathname: "/stack"});
@@ -226,6 +249,8 @@ class StackPage extends React.Component {
         });
 
         return <Layout className={s.content + " " + s.stackContainer}>
+
+            <div id="fb-root"></div>
 
             <div className={s.stackTop}>
                 <h2>Your Stack</h2>
@@ -298,11 +323,24 @@ class StackPage extends React.Component {
                     onClick={this.addToCart}>Buy Now
                 </button>
 
+                <div className={s.socialButton}>
+                    <iframe
+                        src={"https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fwww.shellybrown.com%2Fss%2Fref%3D" + skus + "&layout=button&size=small&mobile_iframe=true&appId=175518545791503&width=59&height=20"}
+                        width="59" height="20" scrolling="no" frameBorder="0" allowTransparency="true">
+                    </iframe>
+                </div>
+                <div className={s.socialButton}>
+                    <a className={s.twitterShareButton}
+                       href={"https://twitter.com/intent/tweet?text=" + twitterURL}
+                       data-size="small"><i className={s.twitterIcon}></i> Tweet
+                        </a>
+                </div>
+
             </div>
 
-            {/*<div><a href={shareURL}>Share</a></div>*/}
 
-        </Layout>;
+        </Layout>
+            ;
     }
 
 }
