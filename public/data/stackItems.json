@@ -1,9 +1,15 @@
 {
   "stackItems": [
     {
-      "sku": "SB-B8BOCAB",
+      "sku": "SB-B8BOC",
       "name": "Alexandria - Antique Brass - Crystal",
       "image": "SB-Alexandria-B8BOC.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B8BOCAB",
+      "name": "Alexandria - Antique Brass - Reflection",
+      "image": "SB-Alexandria-B8BOCAB.jpg",
       "price": 0
     },
     {
@@ -25,7 +31,7 @@
       "price": 0
     },
     {
-      "sku": "SB-B8BOC",
+      "sku": "SB-B8SOC",
       "name": "Alexandria - Antique Silver - Crystal",
       "image": "SB-Alexandria-B8SOC.jpg",
       "price": 0
