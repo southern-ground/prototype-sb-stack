@@ -27,7 +27,7 @@ import {
     SHARE_COOKIE_NAME,
     IMAGE_DATA_URL,
     NUM_SELECTED_REQUIRED,
-    SALE_PERCENTAGE
+    SALE_PERCENTAGES
 } from '../core/constants';
 import _ from '../node_modules/lodash';
 import request from 'superagent';
@@ -370,16 +370,21 @@ const store = createStore((state = initialState, action) => {
 
             var data = action.data.data,
                 updateID = data.product_id,
-                updatePrice = Number(data.price),
+                saleItem = false,
+                msrp = Number(data.price),
+                salePrice,
                 newInventory;
 
-            if (data.on_sale == 1) {
-                updatePrice -= (updatePrice * (SALE_PERCENTAGE / 100));
-            }
+            data.categories.sort().reverse().map((id)=>{
+                if(parseInt(id) in SALE_PERCENTAGES){
+                    saleItem = true;
+                    salePrice = msrp * ( (100 - SALE_PERCENTAGES[id]) / 100 );
+                }
+            });
 
             newInventory = state.inventory.map((item) => {
                 if (item.product_id === updateID) {
-                    item.price = updatePrice;
+                    saleItem ? item.price = salePrice : item.price = msrp;
                 }
                 return item;
             });
