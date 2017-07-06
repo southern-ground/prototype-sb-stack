@@ -139,10 +139,23 @@
       "note": "Duplicate SKU SB-B9PGV"
     },
     {
+      "sku": "SB-B9PGA",
+      "name": "Angie - Polished Gold - Amethyst",
+      "image": "SB-B9PGA.jpg",
+      "price": 0
+    },
+    {
       "sku": "SB-B9PGBD",
       "name": "Angie - Polished Gold - Smoke",
       "image": "SB-Angie-B9PGBD.jpg",
       "price": 0
+    },
+    {
+      "sku": "SB-B9PGJ",
+      "name": "Angie - Polished Gold - Jet",
+      "image": "SB-B9PGJ.jpg",
+      "price": 0,
+      "note": "Missing Image"
     },
     {
       "sku": "SB-B9SOC",
