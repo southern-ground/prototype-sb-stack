@@ -79,13 +79,6 @@
       "price": 0
     },
     {
-      "sku": "SB-B8PGCGS",
-      "name": "Alexandria - Polished Gold - Crystal Golden Shadow",
-      "image": "SB-B8PGCGS.jpg",
-      "price": 0,
-      "note": "Missing image"
-    },
-    {
       "sku": "SB-B8AC",
       "name": "Alexandria - Antique Copper",
       "image": "SB-Alexandria-B8ACM.jpg",
@@ -176,24 +169,10 @@
       "price": 0
     },
     {
-      "sku": "SB-B9PGJ",
-      "name": "Angie - Polished Gold - Jet",
-      "image": "SB-B9PGJ.jpg",
-      "price": 0,
-      "note": "Missing Image"
-    },
-    {
       "sku": "SB-B9SJ",
       "name": "Angie - Silver - Jet",
       "image": "SB-B9SJ.jpg",
       "price": 0
-    },
-    {
-      "sku": "SB-B9PGA",
-      "name": "Angie - Polished Gold - Amethyst",
-      "image": "SB-B9PGA.jpg",
-      "price": 0,
-      "note": "Missing image"
     },
     {
       "sku": "SB-B9PGCGS",
