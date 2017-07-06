@@ -81,7 +81,7 @@
     {
       "sku": "SB-B8PGCGS",
       "name": "Alexandria - Polished Gold - Crystal Golden Shadow",
-      "image": "",
+      "image": "SB-B8PGCGS.jpg",
       "price": 0,
       "note": "Missing image"
     },
@@ -178,7 +178,7 @@
     {
       "sku": "SB-B9PGJ",
       "name": "Angie - Polished Gold - Jet",
-      "image": "",
+      "image": "SB-B9PGJ.jpg",
       "price": 0,
       "note": "Missing Image"
     },
@@ -191,7 +191,7 @@
     {
       "sku": "SB-B9PGA",
       "name": "Angie - Polished Gold - Amethyst",
-      "image": "",
+      "image": "SB-B9PGA.jpg",
       "price": 0,
       "note": "Missing image"
     },
@@ -300,13 +300,19 @@
     {
       "sku": "SB-B13PG",
       "name": "Logo Charm - Polished Gold",
-      "image": "SB-Logo Charm-B13PG.jpg",
+      "image": "SB-B13PG-2.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B13RG",
+      "name": "Logo Charm - Rose Gold",
+      "image": "SB-B13RG-2.jpg",
       "price": 0
     },
     {
       "sku": "SB-B13S",
       "name": "Logo Charm - Silver",
-      "image": "SB-Logo Charm-B13S.jpg",
+      "image": "SB-B13S.jpg",
       "price": 0
     },
     {
@@ -420,7 +426,7 @@
     {
       "sku": "SB-B13S",
       "name": "Logo Charm - Silver",
-      "image": "",
+      "image": "SB-B13S.jpg",
       "price": 0
     },
     {
@@ -450,13 +456,13 @@
     {
       "sku": "SB-B24PG",
       "name": "Logo Tassel Cuff - Polished Gold",
-      "image": "",
+      "image": "SB-B24PG.jpg",
       "price": 0
     },
     {
       "sku": "SB-B24S",
       "name": "Logo Tassel Cuff - Silver",
-      "image": "",
+      "image": "SB-B24S.jpg",
       "price": 0
     }
   ]
