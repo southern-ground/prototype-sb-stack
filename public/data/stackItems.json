@@ -81,8 +81,9 @@
     {
       "sku": "SB-B8PGCGS",
       "name": "Alexandria - Polished Gold - Crystal Golden Shadow",
-      "image": "SB-B8PGCGS.jpg",
-      "price": 0
+      "image": "",
+      "price": 0,
+      "note": "Missing image"
     },
     {
       "sku": "SB-B8AC",
@@ -188,9 +189,9 @@
       "price": 0
     },
     {
-      "sku": "SB-B9SJ",
+      "sku": "SB-B9PGA",
       "name": "Angie - Polished Gold - Amethyst",
-      "image": "SB-B9SJ.jpg",
+      "image": "",
       "price": 0,
       "note": "Missing image"
     },
@@ -384,6 +385,78 @@
       "sku": "SB-B10SORWO",
       "name": "Protector - Antique Brass - Rose Water Opal",
       "image": "SB-Protector-B1SORWO.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B2S-2",
+      "name": "Modern Logo Bracelet - Silver",
+      "image": "SB-B2S-2.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B2PG-2",
+      "name": "Modern Logo Bracelet - Polished Gold",
+      "image": "SB-B2SPG-2.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B2RG-2",
+      "name": "Modern Logo Bracelet - Rose Gold",
+      "image": "SB-B2SRG-2.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B13PG",
+      "name": "Logo Charm - Polished Gold",
+      "image": "SB-B13PG-2.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B13RG",
+      "name": "Logo Charm - Rose Gold",
+      "image": "SB-B13RG-2.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B13S",
+      "name": "Logo Charm - Silver",
+      "image": "",
+      "price": 0
+    },
+    {
+      "sku": "SB-B22PG",
+      "name": "Candace - Polished Gold",
+      "image": "SB-Candace-B22PG.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B22RG",
+      "name": "Candace - Rose Gold",
+      "image": "SB-Candace-B22RG.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B22S",
+      "name": "Candace - Silver",
+      "image": "SB-Candace-B22S.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B24RG",
+      "name": "Logo Tassel Cuff - Rose Gold",
+      "image": "SB-B24RG.jpg",
+      "price": 0
+    },
+    {
+      "sku": "SB-B24PG",
+      "name": "Logo Tassel Cuff - Polished Gold",
+      "image": "",
+      "price": 0
+    },
+    {
+      "sku": "SB-B24S",
+      "name": "Logo Tassel Cuff - Silver",
+      "image": "",
       "price": 0
     }
   ]
